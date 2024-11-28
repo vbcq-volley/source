@@ -1,6 +1,7 @@
 name: Convert Issues to JSON Data
 
 on:
+  workflow_call:
   issues:
     # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#issues
     types:
