@@ -12,6 +12,6 @@
     'help wanted',
     'invalid'
   ],
-  defaultLabels: ['approved'],
-  ignoreComments: true
+      defaultLabels: ['approved','built-with-eleventy'],
+    ignoreComments: true
 }
