@@ -14,3 +14,4 @@ jobs:
       - uses: Renato66/auto-label@v3
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: ./.github/workflows/main.yml
