@@ -12,6 +12,6 @@
     'help wanted',
     'invalid'
   ],
-  defaultLabels: ['triage'],
+  defaultLabels: ['accepted'],
   ignoreComments: true
 }
