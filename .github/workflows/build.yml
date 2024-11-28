@@ -7,7 +7,7 @@ on:
     - cron:  '30 5,17 * * *'
  issues:
    types:
-     - closed
+      closed
 permissions:
   actions: write
   attestations: write
