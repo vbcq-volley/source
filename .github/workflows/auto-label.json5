@@ -12,6 +12,6 @@
     'help wanted',
     'invalid'
   ],
-  defaultLabels: ['accepted'],
+  defaultLabels: ['approved'],
   ignoreComments: true
 }
