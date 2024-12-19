@@ -3,7 +3,7 @@ layout: base.njk
 ---
 {# Only include the syntax highlighter CSS on blog posts, included with the CSS per-page bundle #}
 
-{%- css %}{% include "public/prism-diff.css" %}{%- endcss %}
+{% css %}{% include "public/prism-diff.css" %}{% endcss %}
 <h1>{{ title }}</h1>
 
 <ul class="post-metadata">

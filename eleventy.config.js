@@ -6,7 +6,10 @@ module.exports = async function(eleventyConfig) {
     eleventyConfig.setIncludesDirectory("../include");
     eleventyConfig.setLayoutsDirectory("../include/layouts");
     eleventyConfig.setOutputDirectory("dist");
-	
+	eleventyConfig
+		.addPassthroughCopy({
+			"./public/": "/"
+		})
     const { EleventyHtmlBasePlugin } = await import("@11ty/eleventy");
 	eleventyConfig.addFilter("readableDate", (dateObj, format, zone) => {
 		// Formatting tokens for Luxon: https://moment.github.io/luxon/#/formatting?id=table-of-tokens

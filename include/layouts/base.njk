@@ -8,7 +8,7 @@
 		<link rel="alternate" href="feed/feed.xml" type="application/atom+xml" title="{{ metadata.title }}">
 
 		{#- Uncomment this if you’d like folks to know that you used Eleventy to build your site!  #}
-		{#- <meta name="generator" content="{{ eleventy.generator }}"> #}
+		 <meta name="generator" content="{{ eleventy.generator }}"> 
 
 		{#-
 		Plain-text bundles are provided via the `eleventy-plugin-bundle` plugin:
@@ -22,16 +22,16 @@
 		#}
 
 		{#- Add an arbitrary string to the bundle #}
-		{%- css %}/* This is an arbitrary CSS string added to the bundle */{% endcss %}
+
 		{#- Add the contents of a file to the bundle #}
-		{%- css %}{% include "public/index.css" %}{% endcss %}
+		{% css %}{% include "public/index.css" %}{% include "public/prism-diff.css" %}{% endcss %}
 		{#- Or you can add from node_modules #}
 		
 
 		{#- Render the CSS bundle using inlined CSS (for the fastest site performance in production) #}
-		<style>{% getBundle "css" %}</style>
+		{% css %}{% include "public/prism-diff.css" %}{% endcss %}
 		{#- Renders the CSS bundle using a separate file, if you can't set CSP directive style-src: 'unsafe-inline' #}
-		{#- <link rel="stylesheet" href="{% getBundleFileUrl "css" %}"> #}
+		 <link rel="stylesheet" href="{% getBundleFileUrl "css" %}"> 
 
 		{#- Add the heading-anchors web component to the JavaScript bundle #}
 		

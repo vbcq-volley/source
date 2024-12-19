@@ -18,8 +18,8 @@ const eleventyComputed = {
 };
 ---
 <h1>Tagged “{{ tag }}”</h1>
-
+{% css %}{% include "public/prism-diff.css" %}{% endcss %}
 {% set postslist = collections[ tag ] %}
 {% include "postslist.njk" %}
 
-<p>See <a href="tags.njk">all tags</a>.</p>
+<p>See <a href="tags">all tags</a>.</p>

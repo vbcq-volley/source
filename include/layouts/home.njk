@@ -1,8 +1,9 @@
 ---
 layout: base.njk
 ---
+{% css %}{% include "public/prism-diff.css" %}{% endcss %}
 <!-- Delete this block, which will also remove the component CSS from the bundle -->
-{%- css %}{% include "public/message-box.css" %}{% endcss %}
+{% css %}{% include "public/message-box.css" %}{% endcss %}
 <div class="message-box">
 	<ol>
 		<li>Edit <code>_data/metadata.js</code> with your blog’s information.</li>

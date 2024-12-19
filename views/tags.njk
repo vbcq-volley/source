@@ -1,5 +1,5 @@
 <h1>Tags</h1>
-
+{% css %}{% include "public/prism-diff.css" %}{% endcss %}
 <ul>
 {% for tag in collections | getKeys | filterTagList %}
 	{% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
