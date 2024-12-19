@@ -18,11 +18,11 @@ module.exports = async function(eleventyConfig) {
 		return DateTime.fromJSDate(dateObj, { zone: "utc" }).toFormat('yyyy-LL-dd');
 	});
 	eleventyConfig.addBundle("css", {
-		toFileDirectory: "public",
+		toFileDirectory: "../public",
 	});
 	// Adds the {% js %} paired shortcode
 	eleventyConfig.addBundle("js", {
-		toFileDirectory: "public",
+		toFileDirectory: "../public",
 	});
 	// Get the first `n` elements of a collection.
 	eleventyConfig.addFilter("head", (array, n) => {
@@ -39,7 +39,7 @@ module.exports = async function(eleventyConfig) {
 	// Return the smallest number argument
 	eleventyConfig.addFilter("min", (...numbers) => {
 		return Math.min.apply(null, numbers);
-	});
+	}); 
 
 	// Return the keys used in an object
 	eleventyConfig.addFilter("getKeys", target => {
