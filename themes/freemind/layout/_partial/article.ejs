@@ -41,7 +41,27 @@
 	<%- partial('post/pagination', {page: item}) %>
     </center>
 	</div>
-
+	<% if (item.related_posts && item.related_posts.length > 0) { %>
+		<section class="related-posts">
+			<h2>Related posts</h2>
+			<ul>
+			<%
+			for (const path of item.related_posts) {
+				var posts = site.posts.filter(function(post) {
+					return post.path === path;
+				});
+				if (posts && posts.length > 0) {
+					posts.each(function(apost) {
+					%>
+					<li><a href="<%- url_for(apost.path) %>"><%= apost.title || '(no title)' %></a></li>
+					<%
+					});
+				}
+			}
+			%>
+			</ul>
+		</section>
+	<% } %>
     <!-- share -->
     <% if (post) { %>
         <%- partial('post/bdshare', {page: item}) %>
