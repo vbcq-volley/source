@@ -19,28 +19,6 @@
 	<% } else { %>
 	<div class="col-md-12">
 	<% } %>
-
-	<!-- content -->
-	<div class="mypage">		
-	  <% if (item.description) { %>
-		 <div class="alert alert-success description">
-			<i class="fa fa-info-circle"></i> <%- markdown(item.description) %>			
-		 </div> <!-- alert -->
-	  <% } %>		
-
-	  <%- item.content %>	  
-	</div>
-
-	<!-- recommended posts -->
-	<% if (post && theme.recommended_posts.enabled) { %>
-		<%- partial('post/recommended_posts', {page: item, site: site}) %>
-	<% } %>
-
-	<div>
-  	<center>
-	<%- partial('post/pagination', {page: item}) %>
-    </center>
-	</div>
 	<% if (item.related_posts && item.related_posts.length > 0) { %>
 		<section class="related-posts">
 			<h2>Related posts</h2>
@@ -62,6 +40,28 @@
 			</ul>
 		</section>
 	<% } %>
+	<!-- content -->
+	<div class="mypage">		
+	  <% if (item.description) { %>
+		 <div class="alert alert-success description">
+			<i class="fa fa-info-circle"></i> <%- markdown(item.description) %>			
+		 </div> <!-- alert -->
+	  <% } %>		
+
+	  <%- item.content %>	  
+	</div>
+
+	<!-- recommended posts -->
+	<% if (post && theme.recommended_posts.enabled) { %>
+		<%- partial('post/recommended_posts', {page: item, site: site}) %>
+	<% } %>
+
+	<div>
+  	<center>
+	<%- partial('post/pagination', {page: item}) %>
+    </center>
+	</div>
+
     <!-- share -->
     <% if (post) { %>
         <%- partial('post/bdshare', {page: item}) %>
