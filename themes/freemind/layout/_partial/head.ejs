@@ -38,6 +38,7 @@
   <% if (theme.rss){ %>
     <link rel="alternative" href="<%- url_for(theme.rss) %>" title="<%= config.title %>" type="application/atom+xml">
   <% } %>
+  <link rel="alternate" type="application/atom+xml" title="<%= config.title %>" href="<%= full_url_for(`/atom.xml`) %>" />
   <% if (theme.favicon){ %>
     <link href="<%- url_for(theme.favicon) %>" rel="icon">
   <% } %>
