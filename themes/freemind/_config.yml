@@ -41,7 +41,7 @@ widgets:
 - tagcloud
 - recent_posts
 - links
-#- rss  # uncomment this to show an RSS button in the sidebar
+- rss  # uncomment this to show an RSS button in the sidebar
 
 rss: atom.xml
 fancybox: true
@@ -65,7 +65,7 @@ baidu_tongji:
 # swiftype_key: ZP2ZSuHgipSZfRyU8uTR
 
 # share widgets
-bdshare: true
+bdshare: false
 jiathis: false
 
 # built-in comment system
