@@ -27,6 +27,7 @@
     "hexo-theme-landscape": "^1.0.0"
   },
   "devDependencies": {
+    "hexo-feed": "^1.1.2",
     "hexo-related-posts": "^1.6.2"
   }
 }

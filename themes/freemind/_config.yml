@@ -4,7 +4,23 @@ theme: cerulean
 inverse: true
 # whether to show h2 and h3 titles in excerpts
 show_title_in_excerpt: false
-
+feed:
+    limit: 0
+    order_by: "-date"
+    tag_dir: "tag"
+    category_dir: "category"
+    rss:
+        enable: true
+        template: "themes/theme/layout/_alternate/rss.ejs"
+        output: "rss.xml"
+    atom:
+        enable: true
+        template: "themes/theme/layout/_alternate/atom.ejs"
+        output: "atom.xml"
+    jsonFeed:
+        enable: true
+        template: "themes/theme/layout/_alternate/json.ejs"
+        output: "feed.json"
 menu:
   - title: Archives
     url: archives
