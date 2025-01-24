@@ -19,7 +19,17 @@ permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
   trailing_html: true # Set to false to remove trailing '.html' from permalinks
-
+theme_plus:
+  views:
+    path: 'layout.ejs'
+    file: 'custom/layout.ejs'
+# or
+#theme_plus:
+#  views:
+#    - path: 'index.ejs'
+ #     file: 'custom/index.ejs'
+ #   - path: 'layout.ejs'
+  #    file: 'custom/layout.ejs'
 # Directory
 source_dir: source
 public_dir: public
