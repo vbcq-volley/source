@@ -107,7 +107,8 @@ ignore:
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 theme: freemind
-
+keywords: HTML, JavaScript, Hexo
+tags: Java, Golang, React, Vue
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
