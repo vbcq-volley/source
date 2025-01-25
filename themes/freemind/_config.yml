@@ -1,10 +1,22 @@
-slogan: "les loi du listenboug "
+slogan: "les loi du listenbourg "
 
 theme: cerulean
 inverse: true
 # whether to show h2 and h3 titles in excerpts
 show_title_in_excerpt: false
-
+feed:
+  enable: true
+  type: atom
+  path: atom.xml
+  limit: 0
+  hub:
+  content:
+  content_limit: 140
+  content_limit_delim: ' '
+  order_by: -date
+  icon: icon.png
+  autodiscovery: true
+  template:
 menu:
   - title: Archives
     url: archives
