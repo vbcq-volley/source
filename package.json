@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@jiangtj/hexo-extend-theme": "^0.2.4",
-    "@vercel/speed-insights": "^1.1.0",
+    "@vercel/speed-insights": "^1.2.0",
     "hexo": "^7.3.0",
     "hexo-enhancer": "^1.0.10",
     "hexo-generator-archive": "^2.0.0",
