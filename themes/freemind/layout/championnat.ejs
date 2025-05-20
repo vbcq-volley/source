@@ -29,16 +29,23 @@
             
               Pour + d’info consulter l’article suivant&nbsp;:
               <a href="" class="spip_in">Calcul des points du championnat</a>
-            
+              <div class="mypage">	
+                <ul>
           <% site.posts.sort('date', -1).forEach(function(it){ %>
             <% if (it.concern_group && it.concern_group==page.group){ %>
                 <li class="listing-item"><a href="<%= url_for(it.path) %>" <% if
                         (it.description) { %> title="<%= it.description %>" <% } %>><%=
-                                    it.title %></a></li>
+                                    it.title %></a>
+                                    <%- partial('_partial/post/entry', {item: it, index: false,button:false}) %></li>
                 <% } %>
                     <% }); %>
-        
-
+                </ul>
+              </div>
+              <%site.data.db.models.match.forEach(function(it){%>
+                <%= it.team1 %>
+                <%= it.team2 %>
+                <%= it.date %>
+                <% }); %>
         
      
     <!-- Fin rubrique -->
