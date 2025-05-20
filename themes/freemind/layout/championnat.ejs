@@ -4,7 +4,7 @@
 <div class="row page">
   
       <div class="title"><h1>Championnat Groupe <%=page.group%></h1></div>
-      <div class="description">
+      
         <div class="logo droite">
           <img
             src="local/cache-vignettes/L100xH50/rubon58-06d6b.png?1732290159"
@@ -14,29 +14,22 @@
             alt=""
           />
         </div>
-        <div class="texte">
-          <ul class="spip" role="list">
-            <li>
+       
+          
               Le responsable du Groupe <%=page.group%> est
               <strong
                 ><a href="" class="spip_in"
                   >Mickaël Poussier</a
                 ></strong
               >
-              .
-            </li>
-            <li>
+              
               Pour faciliter la gestion du classement, les résultats sont à
               communiquer au responsable de groupe dès la fin des matchs [*par
               les deux équipes*]
-            </li>
-            <li>
+            
               Pour + d’info consulter l’article suivant&nbsp;:
-              <a href="" class="spip_in"
-                >Calcul des points du championnat</a
-              >
-            </li>
-          </ul>
+              <a href="" class="spip_in">Calcul des points du championnat</a>
+            
           <% site.posts.sort('date', -1).forEach(function(it){ %>
             <% if (it.concern_group && it.concern_group==page.group){ %>
                 <li class="listing-item"><a href="<%= url_for(it.path) %>" <% if
@@ -44,7 +37,7 @@
                                     it.title %></a></li>
                 <% } %>
                     <% }); %>
-        </div>
+        
 
         
      
