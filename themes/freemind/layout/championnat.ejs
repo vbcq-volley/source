@@ -38,38 +38,38 @@
 
     <table>
       <tr>
-        <td>team1</td>
-        <td>team2</td>
-        <td>homeDate</td>
-        <td>awayDate</td>
-        <td>homeLocation</td>
-        <td>awayLocation</td>
+        <th>team1</th>
+        <th>team2</th>
+        <th>homeDate</th>
+        <th>awayDate</th>
+        <th>homeLocation</th>
+        <th>awayLocation</th>
       </tr>
       <%site.data.db.models.match.forEach(function(it){%>
         <tr>
-          <th>
+          <td>
             <%= it.team1 %>
-          </th>
-          <th>
+          </td>
+          <td>
             <%= it.team2 %>
-          </th>
-          <th>
+          </td>
+          <td>
             <%= it.homeDate %>
-          </th>
-          <th>
+          </td>
+          <td>
             <%= it.awayDate %>
-          </th>
-          <th>
+          </td>
+          <td>
             <%= it.homeLocation %>
-          </th>
-          <th>
+          </td>
+          <td>
             <%= it.awayLocation %>
-          </th>
+          </td>
         </tr>
-    </table>
+    
 
     <% }); %>
-
+</table>
 
       <!-- Fin rubrique -->
 
