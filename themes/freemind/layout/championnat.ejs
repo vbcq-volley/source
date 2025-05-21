@@ -38,39 +38,39 @@
 
     <table>
       <tr>
-        <th>équipe 1</th>
-        <th>equipe 2</th>
-        <th>date aller</th>
-        <th>date retour </th>
-        <th>endroit aller </th>
-        <th>endroit retour  </th>
+        <td>team1</td>
+        <td>team2</td>
+        <td>homeDate</td>
+        <td>awayDate</td>
+        <td>homeLocation</td>
+        <td>awayLocation</td>
       </tr>
-      <%site.data.db.models.match.filter((it)=>{return it.group==page.group}).forEach(function(it){%>
+      <%site.data.db.models.match.forEach(function(it){%>
         <tr>
-          <td>
+          <th>
             <%= it.team1 %>
-          </td>
-          <td>
+          </th>
+          <th>
             <%= it.team2 %>
-          </td>
-          <td>
+          </th>
+          <th>
             <%= it.homeDate %>
-          </td>
-          <td>
+          </th>
+          <th>
             <%= it.awayDate %>
-          </td>
-          <td>
+          </th>
+          <th>
             <%= it.homeLocation %>
-          </td>
-          <td>
+          </th>
+          <th>
             <%= it.awayLocation %>
-          </td>
+          </th>
         </tr>
-   
+    </table>
 
     <% }); %>
 
- </table>
+
       <!-- Fin rubrique -->
 
 
