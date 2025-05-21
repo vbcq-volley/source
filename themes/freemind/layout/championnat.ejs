@@ -1,0 +1,81 @@
+<!-- title -->
+
+
+<div class="row page">
+
+  <div class="title">
+    <h1>Championnat Groupe <%=page.group%>
+    </h1>
+  </div>
+
+  <div class="logo droite">
+    <img src="local/cache-vignettes/L100xH50/rubon58-06d6b.png?1732290159" class="spip_logo" width="100" height="50"
+      alt="" />
+  </div>
+
+
+  Le responsable du Groupe <%=page.group%> est
+    <strong><a href="" class="spip_in">Mickaël Poussier</a></strong>
+
+    Pour faciliter la gestion du classement, les résultats sont à
+    communiquer au responsable de groupe dès la fin des matchs [*par
+    les deux équipes*]
+
+    Pour + d’info consulter l’article suivant&nbsp;:
+    <a href="" class="spip_in">Calcul des points du championnat</a>
+    <div class="mypage">
+      <ul>
+        <% site.posts.sort('date', -1).forEach(function(it){ %>
+          <% if (it.concern_group && it.concern_group==page.group){ %>
+            <li class="listing-item"><a href="<%= url_for(it.path) %>" <% if (it.description) { %> title="<%=
+                  it.description %>" <% } %>><%= it.title %></a>
+              <%- partial('_partial/post/entry', {item: it, index: false,button:false}) %>
+            </li>
+            <% } %>
+              <% }); %>
+      </ul>
+    </div>
+
+    <table>
+      <tr>
+        <th>équipe 1</th>
+        <th>equipe 2</th>
+        <th>date aller</th>
+        <th>date retour </th>
+        <th>endroit aller </th>
+        <th>endroit retour  </th>
+      </tr>
+      <%site.data.db.models.match.filter((it)=>{return it.group==page.group}).forEach(function(it){%>
+        <tr>
+          <td>
+            <%= it.team1 %>
+          </td>
+          <td>
+            <%= it.team2 %>
+          </td>
+          <td>
+            <%= it.homeDate %>
+          </td>
+          <td>
+            <%= it.awayDate %>
+          </td>
+          <td>
+            <%= it.homeLocation %>
+          </td>
+          <td>
+            <%= it.awayLocation %>
+          </td>
+        </tr>
+   
+
+    <% }); %>
+
+ </table>
+      <!-- Fin rubrique -->
+
+
+
+
+
+</div>
+<!-- row-fluid -->
