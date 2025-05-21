@@ -45,7 +45,7 @@
         <th>homeLocation</th>
         <th>awayLocation</th>
       </tr>
-      <%site.data.db.models.match.forEach(function(it){%>
+      <%site.data.db.match.entries.filter((it)=>{return it.group==page.group}).forEach(function(it){%>
         <tr>
           <td>
             <%= it.team1 %>
