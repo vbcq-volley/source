@@ -218,7 +218,8 @@ const generateScores = async () => {
         team2: match.team2,
         score1: match.team1Score,
         score2: match.team2Score,
-        date: match.date
+        date: match.date,
+        type: match.matchType || 'home' // Ajout du type de match (aller/retour)
       }));
       
       scores[session][group] = groupScores;
@@ -256,28 +257,52 @@ ${groups.map(group => `
 
     // Générer un fichier pour chaque groupe
     for (const group of groups) {
-      const groupContent = `---
-title: Scores Session ${session} - Groupe ${group}
+      // Créer le fichier pour les matchs aller
+      const allerContent = `---
+title: Scores Session ${session} - Groupe ${group} - Matchs Aller
 date: ${new Date().toISOString()}
 layout: post
 concern_group: ${group}
 ---
 
-# Scores Session ${session} - Groupe ${group}
+# Scores Session ${session} - Groupe ${group} - Matchs Aller
 
 | Équipe 1 | Équipe 2 | Score | Date |
 |----------|----------|-------|------|
-${scores[session][group].map(match => 
+${scores[session][group].filter(match => match.type === 'home').map(match => 
   `| ${match.team1} | ${match.team2} | ${match.score1}-${match.score2} | ${match.date} |`
 ).join('\n')}
 `;
-    console.log(groupContent)
+const retourContent = `---
+title: Scores Session ${session} - Groupe ${group} - Matchs Retour
+date: ${new Date().toISOString()}
+layout: post
+concern_group: ${group}
+---
+
+# Scores Session ${session} - Groupe ${group} - Matchs Retour
+
+| Équipe 1 | Équipe 2 | Score | Date |
+|----------|----------|-------|------|
+${scores[session][group].filter(match => match.type !== 'home').map(match => 
+  `| ${match.team1} | ${match.team2} | ${match.score1}-${match.score2} | ${match.date} |`
+).join('\n')}
+`;
+      // Créer le fichier pour les matchs retour
+    
+      console.log(allerContent)
+      console.log(retourContent)
       // Écrire le fichier du groupe
-      const groupFilename = `${sessionDir}/groupe-${group}/index.md`;
-      if (!fs.existsSync(path.dirname(groupFilename))) {
-        fs.mkdirSync(path.dirname(groupFilename), { recursive: true });
-      }
-      fs.writeFileSync(groupFilename, groupContent);
+      const allerFilename = `${sessionDir}/groupe-${group}/aller/index.md`;
+      const retourFilename = `${sessionDir}/groupe-${group}/retour/index.md`;
+        if (!fs.existsSync(path.dirname(allerFilename))) {
+            fs.mkdirSync(path.dirname(allerFilename), { recursive: true });
+        }
+        if (!fs.existsSync(path.dirname(retourFilename))) {
+            fs.mkdirSync(path.dirname(retourFilename), { recursive: true });
+        }
+      fs.writeFileSync(allerFilename, allerContent);
+      fs.writeFileSync(retourFilename, retourContent);
     }
   }
 };
