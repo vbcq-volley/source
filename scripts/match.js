@@ -1,4 +1,6 @@
-
+const fs=require('fs')
+const uuid=require('uuid')
+const path=require('path')
 class DB {
     constructor(options, filename) {
         if (!options || typeof options !== 'object') {
@@ -169,7 +171,94 @@ class DB {
 const db=new DB({ 
   filename:"./source/_data/db.json"
 })
+const groups = [...new Set(db.read('team').map(team => parseInt(team.group)))];
+const sessions = [...new Set(db.read('match').map(match => parseInt(match.session)))];
+console.log(groups,sessions)
+// Générer les scores pour chaque session et groupe
+const generateScores = async () => {
+  const scores = {};
+  
+  // Pour chaque session
+  for (const session of sessions) {
+    scores[session] = {};
+    
+    // Pour chaque groupe
+    for (const group of groups) {
+      // Récupérer les matchs de cette session et ce groupe
+      const matches = db.read('').filter(match => 
+        parseInt(match.session) === session && 
+        (parseInt(match.team1.group) === group || parseInt(match.team2.group) === group)
+      );
+      
+      // Calculer les scores
+      const groupScores = matches.map(match => ({
+        team1: match.team1,
+        team2: match.team2,
+        score1: match.team1Score,
+        score2: match.team2Score,
+        date: match.date
+      }));
+      
+      scores[session][group] = groupScores;
+    }
+  }
+  
+  // Générer les posts Hexo pour chaque session et groupe
+  for (const session of sessions) {
+    // Créer le fichier principal de la session
+    const mainContent = `---
+title: Scores Session ${session}
+date: ${new Date().toISOString()}
+layout: post
+---
 
+# Scores Session ${session}
+
+${groups.map(group => `
+## [Groupe ${group}](/scores/session-${session}/groupe-${group})
+`).join('\n')}
+`;
+
+    // Écrire le fichier principal
+    const mainFilename = `source/_posts/scores-session-${session}.md`;
+    if (!fs.existsSync(path.dirname(mainFilename))) {
+        fs.mkdirSync(path.dirname(mainFilename), { recursive: true });
+      }
+    fs.writeFileSync(mainFilename, mainContent);
+
+    // Créer un dossier pour les groupes de cette session
+    const sessionDir = `source/_posts/scores/session-${session}`;
+    if (!fs.existsSync(sessionDir)) {
+      fs.mkdirSync(sessionDir, { recursive: true });
+    }
+
+    // Générer un fichier pour chaque groupe
+    for (const group of groups) {
+      const groupContent = `---
+title: Scores Session ${session} - Groupe ${group}
+date: ${new Date().toISOString()}
+layout: post
+concern_group: ${group}
+---
+
+# Scores Session ${session} - Groupe ${group}
+
+| Équipe 1 | Équipe 2 | Score | Date |
+|----------|----------|-------|------|
+${scores[session][group].map(match => 
+  `| ${match.team1} | ${match.team2} | ${match.score1}-${match.score2} | ${new Date(match.date).toLocaleDateString()} |`
+).join('\n')}
+`;
+
+      // Écrire le fichier du groupe
+      const groupFilename = `${sessionDir}/groupe-${group}.md`;
+      fs.writeFileSync(groupFilename, groupContent);
+    }
+  }
+};
+
+// Exécuter la génération
+generateScores();
 
 
 
