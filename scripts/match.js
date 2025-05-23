@@ -209,7 +209,7 @@ const generateScores = async () => {
     for (const group of groups) {
       // Récupérer les matchs de cette session et ce groupe
       const matches = db.read('result').filter(match => 
-        parseInt(match.session) === session 
+        parseInt(match.session) === session && parseInt(match.group)==group
       );
       
       // Calculer les scores
@@ -271,9 +271,12 @@ ${scores[session][group].map(match =>
   `| ${match.team1} | ${match.team2} | ${match.score1}-${match.score2} | ${match.date} |`
 ).join('\n')}
 `;
-
+    console.log(groupContent)
       // Écrire le fichier du groupe
-      const groupFilename = `${sessionDir}/groupe-${group}.md`;
+      const groupFilename = `${sessionDir}/groupe-${group}/index.md`;
+      if (!fs.existsSync(path.dirname(groupFilename))) {
+        fs.mkdirSync(path.dirname(groupFilename), { recursive: true });
+      }
       fs.writeFileSync(groupFilename, groupContent);
     }
   }
