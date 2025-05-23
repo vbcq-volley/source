@@ -174,6 +174,29 @@ const db=new DB({
 const groups = [...new Set(db.read('team').map(team => parseInt(team.group)))];
 const sessions = [...new Set(db.read('match').map(match => parseInt(match.session)))];
 console.log(groups,sessions)
+// Créer les dossiers pour chaque groupe si ils n'existent pas
+for (const group of groups) {
+  const groupDir = `source/groupe-${group}`;
+  if (!fs.existsSync(groupDir)) {
+    fs.mkdirSync(groupDir, { recursive: true });
+  }
+  
+  // Créer le fichier index.md pour chaque groupe
+  const groupContent = `---
+title: groupe_${group}
+date: ${new Date().toISOString()}
+layout: championnat
+group: ${group}
+---
+service en cours
+`;
+  
+  const groupIndexFile = `${groupDir}/index.md`;
+  fs.writeFileSync(groupIndexFile, groupContent);
+}
+
+
+
 // Générer les scores pour chaque session et groupe
 const generateScores = async () => {
   const scores = {};
@@ -185,9 +208,8 @@ const generateScores = async () => {
     // Pour chaque groupe
     for (const group of groups) {
       // Récupérer les matchs de cette session et ce groupe
-      const matches = db.read('').filter(match => 
-        parseInt(match.session) === session && 
-        (parseInt(match.team1.group) === group || parseInt(match.team2.group) === group)
+      const matches = db.read('result').filter(match => 
+        parseInt(match.session) === session 
       );
       
       // Calculer les scores
@@ -246,7 +268,7 @@ concern_group: ${group}
 | Équipe 1 | Équipe 2 | Score | Date |
 |----------|----------|-------|------|
 ${scores[session][group].map(match => 
-  `| ${match.team1} | ${match.team2} | ${match.score1}-${match.score2} | ${new Date(match.date).toLocaleDateString()} |`
+  `| ${match.team1} | ${match.team2} | ${match.score1}-${match.score2} | ${match.date} |`
 ).join('\n')}
 `;
 

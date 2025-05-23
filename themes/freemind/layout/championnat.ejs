@@ -29,7 +29,7 @@
           <% if (it.concern_group && it.concern_group==page.group){ %>
             <li class="listing-item"><a href="<%= url_for(it.path) %>" <% if (it.description) { %> title="<%=
                   it.description %>" <% } %>><%= it.title %></a>
-              <%- partial('_partial/post/entry', {item: it, index: false,button:false}) %>
+              
             </li>
             <% } %>
               <% }); %>
