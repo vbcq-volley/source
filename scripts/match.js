@@ -271,7 +271,7 @@ ${groups.map(group => `
       const allerContent = `---
 title: Scores Session ${session} - Groupe ${group} - Matchs Aller
 date: ${new Date().toISOString()}
-layout: post
+layout: 
 concern_group: ${group}
 ---
 
