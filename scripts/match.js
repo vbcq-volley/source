@@ -241,7 +241,7 @@ const generateScores = async () => {
     const mainContent = `---
 title: Scores Session ${session}
 date: ${new Date().toISOString()}
-layout: post
+layout: session
 ---
 
 # Scores Session ${session}
