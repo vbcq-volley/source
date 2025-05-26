@@ -173,6 +173,7 @@ const db = new DB({
 });
 
 const teams = db.read('team');
+const matches = db.read('match');
 
 const teamsDir = 'source/teams';
 
@@ -182,17 +183,35 @@ if (!fs.existsSync(teamsDir)) {
 }
 
 teams.forEach(team => {
-  const teamFilename = path.join(teamsDir, `${team.teamName}.md`);
+  const teamFilename = path.join(teamsDir, `${team.teamName}/index.md`);
+  if (!fs.existsSync(teamFilename)) {
+    fs.mkdirSync(path.dirname(teamFilename), { recursive: true });
+  }
+
+  // Trouver toutes les sessions où l'équipe a joué
+  const teamSessions = matches
+    .filter(match => match.team1 === team.teamName || match.team2 === team.teamName)
+    .map(match => match.session)
+    .filter((session, index, self) => self.indexOf(session) === index)
+    .sort();
 
   // Vérifier si le fichier existe avant de le créer
-  if (!fs.existsSync(teamFilename)) {
-    const teamContent = `---\ntitle: Équipe ${team.teamName}\ndate: ${new Date().toISOString()}\nlayout: post\n---\n\n# ${team.teamName}\n\n`; // Ajoutez plus de détails si nécessaire
+  
+    let teamContent = `---\ntitle: Équipe ${team.teamName}\ndate: ${new Date().toISOString()}\nlayout: post\n---\n\n# ${team.teamName}\n\n`;
+
+    // Ajouter la section des sessions
+    if (teamSessions.length > 0) {
+      teamContent += `## Sessions\n\n`;
+      teamSessions.forEach(session => {
+        teamContent += `### Session ${session}\n`;
+        teamContent += `- [Matchs Aller](/scores/session-${session}/groupe-${team.group}/aller/)\n`;
+        teamContent += `- [Matchs Retour](/scores/session-${session}/groupe-${team.group}/retour/)\n\n`;
+      });
+    }
 
     fs.writeFileSync(teamFilename, teamContent);
     console.log(`Page créée pour l'équipe ${team.teamName} (${team._id})`);
-  } else {
-    console.log(`La page pour l'équipe ${team.teamName} (${team._id}) existe déjà.`);
-  }
+
 });
 
 // Pour que la classe DB soit accessible depuis d'autres fichiers, ajoutez export { DB }; dans match.js
