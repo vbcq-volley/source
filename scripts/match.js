@@ -271,7 +271,7 @@ ${groups.map(group => `
       const allerContent = `---
 title: Scores Session ${session} - Groupe ${group} - Matchs Aller
 date: ${new Date().toISOString()}
-layout: 
+layout: aller
 concern_group: ${group}
 ---
 
@@ -286,7 +286,7 @@ ${scores[session][group].filter(match => match.type === 'home').map(match =>
 const retourContent = `---
 title: Scores Session ${session} - Groupe ${group} - Matchs Retour
 date: ${new Date().toISOString()}
-layout: post
+layout: retour
 concern_group: ${group}
 ---
 
