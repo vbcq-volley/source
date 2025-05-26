@@ -253,7 +253,7 @@ ${groups.map(group => `
 `;
 
     // Écrire le fichier principal
-    const mainFilename = `source/scores-session-${session}.md`;
+    const mainFilename = `source/scores-session-${session}/index.md`;
     if (!fs.existsSync(path.dirname(mainFilename))) {
         fs.mkdirSync(path.dirname(mainFilename), { recursive: true });
       }
