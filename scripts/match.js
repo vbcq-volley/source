@@ -260,7 +260,7 @@ ${groups.map(group => `
     fs.writeFileSync(mainFilename, mainContent);
 
     // Créer un dossier pour les groupes de cette session
-    const sessionDir = `source/_posts/scores/session-${session}`;
+    const sessionDir = `source/scores/session-${session}`;
     if (!fs.existsSync(sessionDir)) {
       fs.mkdirSync(sessionDir, { recursive: true });
     }
