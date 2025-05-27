@@ -76,6 +76,7 @@ class DB {
     read(modelName) {
         try {
             const model = this.model(modelName);
+            
             return model.entries.map((entry, index) => ({...entry, index})) || [];
         } catch (error) {
             console.error(`Error reading entries: ${error.message}`);
