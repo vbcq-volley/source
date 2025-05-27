@@ -172,7 +172,7 @@ class DB {
 const db=new DB({ 
   filename:"./source/_data/db.json"
 })
-
+console.log(db.data)
 const groups = [...new Set(db.read('team').map(team => parseInt(team.group)))];
 const sessions = [...new Set(db.read('match').map(match => parseInt(match.session)))];
 console.log("les donnée sont ")
