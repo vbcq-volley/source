@@ -173,6 +173,7 @@ const db=new DB({
 })
 const groups = [...new Set(db.read('team').map(team => parseInt(team.group)))];
 const sessions = [...new Set(db.read('match').map(match => parseInt(match.session)))];
+
 console.log(groups,sessions)
 // Créer les dossiers pour chaque groupe si ils n'existent pas
 for (const group of groups) {
