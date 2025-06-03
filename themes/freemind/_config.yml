@@ -22,6 +22,19 @@ menu:
     url: about
     intro: "About me."
     icon: "fa fa-user"
+  - title: "groupes 1"
+    url: /groupe-1/ 
+    intro: "groupes 1"
+    icon: "fa fa-group"
+  - title: "groupes 2"
+    url: /groupe-2/
+    intro: "groupes 2"
+    icon: "fa fa-group"
+  - title: "groupes 3"
+    url: /groupe-3/
+    intro: "groupes 3"
+    icon: "fa fa-group"
+  
 
 links:
   - title: Freemind
@@ -44,7 +57,7 @@ widgets:
 - tagcloud
 - recent_posts
 
-#- rss  # uncomment this to show an RSS button in the sidebar
+- rss  # uncomment this to show an RSS button in the sidebar
 
 rss: atom.xml
 fancybox: true

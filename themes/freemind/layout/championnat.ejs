@@ -38,12 +38,12 @@
 
     <table>
       <tr>
-        <th>team1</th>
-        <th>team2</th>
-        <th>homeDate</th>
-        <th>awayDate</th>
-        <th>homeLocation</th>
-        <th>awayLocation</th>
+        <th>équipe 1</th>
+        <th>équipe 2</th>
+        <th>date aller</th>
+        <th>date retour</th>
+        <th>lieu aller</th>
+        <th>lieu retour</th>
       </tr>
       <%site.data.db.match.entries.filter((it)=>{return it.group==page.group}).forEach(function(it){%>
         <tr>
@@ -74,7 +74,7 @@
       <!-- Fin rubrique -->
 
 
-      <%=page.content%>
+   
 
 
 </div>
