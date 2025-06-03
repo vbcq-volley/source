@@ -95,7 +95,7 @@ pagination_dir: page
 ## Themes: https://hexo.io/themes/
 theme: freemind
 auto_dir_categorize:
-	enable: true  # options:true, false; default is true
+  enable: true  # options:true, false; default is true
 	force: false # options:true, false; default is false
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
