@@ -9,11 +9,11 @@ const simpleGit = require('simple-git');
         { name: 'web', url: 'https://github.com/vbcq-volley/source.git', path: '.' }
         // Ajoutez d'autres dépôts ici
     ];
-    while (true) {
+   
         for (const repo of repos) {
             await manageRepo(repo);
         }  
-    }
+    
     
 })();
 // Fonction pour gérer la synchronisation d'un dépôt Git
