@@ -1,8 +1,15 @@
 <!-- title -->
 
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-<div class="row page">
 
+<div class="row page">
+	<% if (theme.widgets.length) { %>
+        <div class="col-md-9">
+        <% } else { %>
+        <div class="col-md-12">
+        <% } %>
+    
+           
+            <div id="top_search"></div>
   <div class="title">
     <h1>Stade <%=page.title%>
     </h1>
@@ -10,7 +17,7 @@
 
 
      
-    </div>
+    
 
  
     <%site.data.db.stade.entries.filter((it)=>{return it.stadeName==page.title}).forEach(function(it){%>
@@ -29,18 +36,18 @@
                     var lat = parseFloat(data[0].lat);
                     var lon = parseFloat(data[0].lon);
 
-                    // Initialiser la carte avec les coordonnées obtenues
-                    var map = L.map('map').setView([lat, lon], 13);
-
-                    // Ajouter la couche de tuiles OpenStreetMap
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    }).addTo(map);
-
-                    // Ajouter un marqueur
-                    L.marker([lat, lon]).addTo(map)
-                        .bindPopup(address)
-                        .openPopup();
+                document.getElementById('map').innerHTML = `
+                <iframe
+        width="425"
+        height="350"
+        frameborder="0"
+        scrolling="no"
+        marginheight="0"
+        marginwidth="0"
+        src="https://www.openstreetmap.org/export/embed.html?bbox=${lon-0.01}%2C${lat-0.01}%2C${lon+0.01}%2C${lat+0.01}&amp;layer=mapnik&amp;marker=${lat}%2C${lon}&amp;center=${lat}%2C${lon}"
+    ></iframe>`;
+              
+                        
                 } else {
                     console.error('Adresse non trouvée');
                 }
@@ -48,8 +55,8 @@
             .catch(error => console.error('Erreur lors de la récupération des coordonnées:', error));
     </script>
 <%})%>
-        <div id="map"></div>
-      <%- page.content %>
+
+      <%- page.content.replace("__map__", "<div id='map'></div>") %>
 
 
 </div>

@@ -108,11 +108,11 @@ date: ${new Date().toISOString()}
 layout: stade
 ---
 
-# ${stade.stadeName}
+
 
 ## Informations
 - **Adresse**: ${stade.address}
-
+- **Map**: __map__
 ## Matchs à venir
 ${db.read('match')
   .filter(match => 
