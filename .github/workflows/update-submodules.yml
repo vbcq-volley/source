@@ -1,0 +1,29 @@
+name: Update Submodules
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'  # Exécution toutes les 15 minutes
+  workflow_dispatch:  # Permet l'exécution manuelle
+
+permissions:
+  contents: write
+
+jobs:
+  update-submodules:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update submodules
+        run: |
+          git submodule update --remote --merge
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add .
+          git commit -m "chore: update submodules" || echo "No changes to commit"
+          git push origin HEAD:${{ github.ref }} 
