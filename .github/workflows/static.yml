@@ -59,4 +59,4 @@ jobs:
         env:
           GIT_USER: ${{ github.actor }}
           GIT_EMAIL: ${{ github.actor }}@users.noreply.github.com
-          HEXO_DEPLOY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEXO_DEPLOY_TOKEN: ${{ secrets.HEXO_DEPLOY_TOKEN }}
