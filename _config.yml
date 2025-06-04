@@ -196,5 +196,5 @@ deploy:
   branch: pages
   message: "chore: update build"
   token: $HEXO_DEPLOY_TOKEN
-  name: $GITHUB_ACTOR
-  email: $GITHUB_ACTOR@users.noreply.github.com
+  name: alphaleadership
+  email: alphaleadershipyt@protonmail.com
