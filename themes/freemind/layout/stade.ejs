@@ -1,0 +1,55 @@
+<!-- title -->
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<div class="row page">
+
+  <div class="title">
+    <h1>Championnat Groupe <%=page.group%>
+    </h1>
+  </div>
+
+
+     
+    </div>
+
+ 
+    <%site.data.db.stade.entries.filter((it)=>{return it.stadeName==page.title}).forEach(function(it){%>
+      <!-- Fin rubrique -->
+       
+    <script>
+        // Récupérer l'adresse depuis EJS
+        var address = '<%= it.address %>';
+
+        // Utiliser un service de géocodage pour obtenir les coordonnées
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.length > 0) {
+                    var lat = parseFloat(data[0].lat);
+                    var lon = parseFloat(data[0].lon);
+
+                    // Initialiser la carte avec les coordonnées obtenues
+                    var map = L.map('map').setView([lat, lon], 13);
+
+                    // Ajouter la couche de tuiles OpenStreetMap
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    }).addTo(map);
+
+                    // Ajouter un marqueur
+                    L.marker([lat, lon]).addTo(map)
+                        .bindPopup(address)
+                        .openPopup();
+                } else {
+                    console.error('Adresse non trouvée');
+                }
+            })
+            .catch(error => console.error('Erreur lors de la récupération des coordonnées:', error));
+    </script>
+<%})%>
+
+      <%- page.content %>
+
+
+</div>
+<!-- row-fluid -->

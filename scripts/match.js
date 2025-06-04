@@ -197,7 +197,7 @@ group: ${group}
 ## Sessions
 
 ${sessions.map(session => `
-### Session ${session}
+###  ${session}
 - [Matchs Aller](/scores/session-${session}/groupe-${group}/aller/)
 - [Matchs Retour](/scores/session-${session}/groupe-${group}/retour/)
 `).join('\n')}
@@ -274,7 +274,7 @@ ${groups.map(group => `
       const allerContent = `---
 title: Scores Session ${session} - Groupe ${group} - Matchs Aller
 date: ${new Date().toISOString()}
-layout: aller
+layout: page
 concern_group: ${group}
 ---
 
@@ -289,7 +289,7 @@ ${scores[session][group].filter(match => match.type === 'home').map(match =>
 const retourContent = `---
 title: Scores Session ${session} - Groupe ${group} - Matchs Retour
 date: ${new Date().toISOString()}
-layout: retour
+layout: page
 concern_group: ${group}
 ---
 

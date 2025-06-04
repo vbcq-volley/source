@@ -60,10 +60,10 @@
             <%= it.awayDate %>
           </td>
           <td>
-            <%= it.homeLocation %>
+           <a href="<%= url_for('/stade/' + it.homeLocation.toLowerCase().replace(/\s+/g, '-')) %>"> <%= it.homeLocation %></a>
           </td>
           <td>
-            <%= it.awayLocation %>
+            <a href="<%= url_for('/stade/' + it.awayLocation.toLowerCase().replace(/\s+/g, '-')) %>"> <%= it.awayLocation %></a>
           </td>
         </tr>
     
@@ -74,7 +74,7 @@
       <!-- Fin rubrique -->
 
 
-   
+      <%- page.content %>
 
 
 </div>

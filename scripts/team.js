@@ -204,8 +204,8 @@ teams.forEach(team => {
       teamContent += `## Sessions\n\n`;
       teamSessions.forEach(session => {
         teamContent += `### Session ${session}\n`;
-        teamContent += `- [Matchs Aller](/scores/session-${session}/groupe-${team.group}/aller/)\n`;
-        teamContent += `- [Matchs Retour](/scores/session-${session}/groupe-${team.group}/retour/)\n\n`;
+        teamContent += `- [résultats aller ](/scores/session-${session}/groupe-${team.group}/aller/)\n`;
+        teamContent += `- [résultats retour](/scores/session-${session}/groupe-${team.group}/retour/)\n\n`;
       });
     }
 
