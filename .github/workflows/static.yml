@@ -17,7 +17,7 @@ on:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -46,18 +46,17 @@ jobs:
           node-version: '22'
           
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm install
+          npm install hexo-deployer-git --save
         
       - name: Build
         run: npm run build
-        
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # Upload the build directory instead of entire repository
-          path: './public'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+
+      - name: Deploy with hexo-deployer-git
+        run: |
+          npx hexo deploy
+        env:
+          GIT_USER: ${{ github.actor }}
+          GIT_EMAIL: ${{ github.actor }}@users.noreply.github.com
+          HEXO_DEPLOY_TOKEN: ${{ secrets.GITHUB_TOKEN }}

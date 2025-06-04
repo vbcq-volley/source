@@ -191,4 +191,8 @@ auto_dir_categorize:
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: git
+  repo: https://github.com/vbcq-volley/source.git
+  branch: pages
+  message: "chore: update build"
+  token: $HEXO_DEPLOY_TOKEN
