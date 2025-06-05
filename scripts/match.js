@@ -202,7 +202,7 @@ ${[...new Set(db.read('match').filter(match => parseInt(match.group) === group).
 - [Matchs Retour](/scores/session-${session}/groupe-${group}/retour/)
 `).join('\n')}
 ## équipes
-${db.read('team').filter(team => parseInt(team.group) === group).map(team => `- [${team.teamName}](/teams/${team.teamName})`).join('\n')}
+${db.read('team').filter(team => parseInt(team.group) === group).map(team => `- [${team.teamName.replace(/ /g, '-')}](/teams/${team.teamName.replace(/ /g, '-')})`).join('\n')}
 `;
   
   const groupIndexFile = `${groupDir}/index.md`;

@@ -183,7 +183,7 @@ if (!fs.existsSync(teamsDir)) {
 }
 
 teams.forEach(team => {
-  const teamFilename = path.join(teamsDir, `${team.teamName}/index.md`);
+  const teamFilename = path.join(teamsDir, `${team.teamName.replace(/ /g, '-')}/index.md`);
   if (!fs.existsSync(teamFilename)) {
     fs.mkdirSync(path.dirname(teamFilename), { recursive: true });
   }
