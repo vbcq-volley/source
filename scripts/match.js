@@ -196,7 +196,7 @@ group: ${group}
 
 ## Sessions
 
-${sessions.map(session => `
+${[...new Set(db.read('match').filter(match => parseInt(match.group) === group).map(match => parseInt(match.session)))].map(session => `
 ###  ${session}
 - [Matchs Aller](/scores/session-${session}/groupe-${group}/aller/)
 - [Matchs Retour](/scores/session-${session}/groupe-${group}/retour/)
