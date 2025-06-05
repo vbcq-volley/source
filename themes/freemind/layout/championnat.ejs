@@ -48,10 +48,10 @@
       <%site.data.db.match.entries.filter((it)=>{return it.group==page.group}).forEach(function(it){%>
         <tr>
           <td>
-            <%= it.team1 %>
+            <a href="<%= url_for('/teams/' + it.team1.toLowerCase().replace(/\s+/g, '-')) %>"> <%= it.team1 %></a>
           </td>
           <td>
-            <%= it.team2 %>
+            <a href="<%= url_for('/teams/' + it.team2.toLowerCase().replace(/\s+/g, '-')) %>"> <%= it.team2 %></a>
           </td>
           <td>
             <%= it.homeDate %>
