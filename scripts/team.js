@@ -244,7 +244,7 @@ teams.forEach(team => {
           if (pastAllerMatches.length > 0) {
             teamContent += `##### Matchs passés\n\n`;
             pastAllerMatches.forEach(match => {
-              teamContent += `- [${match.team1.replace(/ /g, '-')}](${teamsDir}/${match.team1.replace(/ /g, '-')}) vs [${match.team2.replace(/ /g, '-')}](${teamsDir}/${match.team2.replace(/ /g, '-')}) [${match.homeLocation.replace(/ /g, '-')}](/stades/${match.homeLocation.replace(/ /g, '-')}) - ${match.homeDate}\n`;
+              teamContent += `- [${match.team1.replace(/ /g, '-')}](/teams/${match.team1.replace(/ /g, '-')}) vs [${match.team2.replace(/ /g, '-')}](/teams/${match.team2.replace(/ /g, '-')}) [${match.homeLocation.replace(/ /g, '-')}](/stades/${match.homeLocation.replace(/ /g, '-')}) - ${match.homeDate}\n`;
             });
             teamContent += `\n`;
           }
@@ -254,7 +254,7 @@ teams.forEach(team => {
           if (futureAllerMatches.length > 0) {
             teamContent += `##### Matchs à venir\n\n`;
             futureAllerMatches.forEach(match => {
-              teamContent += `- [${match.team1.replace(/ /g, '-')}](${teamsDir}/${match.team1.replace(/ /g, '-')}) vs [${match.team2.replace(/ /g, '-')}](${teamsDir}/${match.team2.replace(/ /g, '-')}) [${match.homeLocation.replace(/ /g, '-')}](/stades/${match.homeLocation.replace(/ /g, '-')}) - ${match.homeDate}\n`;
+              teamContent += `- [${match.team1.replace(/ /g, '-')}](/teams/${match.team1.replace(/ /g, '-')}) vs [${match.team2.replace(/ /g, '-')}](/teams/${match.team2.replace(/ /g, '-')}) [${match.homeLocation.replace(/ /g, '-')}](/stades/${match.homeLocation.replace(/ /g, '-')}) - ${match.homeDate}\n`;
             });
             teamContent += `\n`;
           }
@@ -267,7 +267,7 @@ teams.forEach(team => {
           if (pastRetourMatches.length > 0) {
             teamContent += `##### Matchs passés\n\n`;
             pastRetourMatches.forEach(match => {
-              teamContent += `- [${match.team2.replace(/ /g, '-')}](${teamsDir}/${match.team2.replace(/ /g, '-')}) vs [${match.team1.replace(/ /g, '-')}](${teamsDir}/${match.team1.replace(/ /g, '-')}) [${match.awayLocation.replace(/ /g, '-')}](/stades/${match.awayLocation.replace(/ /g, '-')}) - ${match.awayDate}\n`;
+              teamContent += `- [${match.team2.replace(/ /g, '-')}](/teams/${match.team2.replace(/ /g, '-')}) vs [${match.team1.replace(/ /g, '-')}](/teams/${match.team1.replace(/ /g, '-')}) [${match.awayLocation.replace(/ /g, '-')}](/stades/${match.awayLocation.replace(/ /g, '-')}) - ${match.awayDate}\n`;
             });
             teamContent += `\n`;
           }
@@ -277,7 +277,7 @@ teams.forEach(team => {
           if (futureRetourMatches.length > 0) {
             teamContent += `##### Matchs à venir\n\n`;
             futureRetourMatches.forEach(match => {
-              teamContent += `- [${match.team2.replace(/ /g, '-')}](${teamsDir}/${match.team2.replace(/ /g, '-')}) vs [${match.team1.replace(/ /g, '-')}](${teamsDir}/${match.team1.replace(/ /g, '-')}) [${match.awayLocation.replace(/ /g, '-')}](/stades/${match.awayLocation.replace(/ /g, '-')}) - ${match.awayDate}\n`;
+              teamContent += `- [${match.team2.replace(/ /g, '-')}](/teams/${match.team2.replace(/ /g, '-')}) vs [${match.team1.replace(/ /g, '-')}](/teams/${match.team1.replace(/ /g, '-')}) [${match.awayLocation.replace(/ /g, '-')}](/stades/${match.awayLocation.replace(/ /g, '-')}) - ${match.awayDate}\n`;
             });
             teamContent += `\n`;
           }
