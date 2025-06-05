@@ -112,7 +112,7 @@ layout: stade
 
 ## Informations
 - **Adresse**: ${stade.address}
-- **Map**: __map__
+- **Map**: map
 ## Matchs à venir
 ${db.read('match')
   .filter(match => 

@@ -22,15 +22,15 @@
 
     "showIcon": true, /* Afficher un cookie pour ouvrir le panneau */
     //"iconSrc": "", /* Optionnel: URL ou image en base64 */
-    "iconPosition": "BottomRight", /* Position de l'icons: (BottomRight - BottomLeft - TopRight - TopLeft) */
+    "iconPosition": "BottomLeft", /* Position de l'icons: (BottomRight - BottomLeft - TopRight - TopLeft) */
 
   "adblocker": false, /* Afficher un message si un Adblocker est détecté */
-                     
+                      
     "DenyAllCta" : true, /* Afficher le bouton Tout refuser */
     "AcceptAllCta" : true, /* Afficher le bouton Tout accepter */
     "highPrivacy": true, /* Attendre le consentement */
     "alwaysNeedConsent": false, /* Demander le consentement même pour les services "Privacy by design" */
-                     
+
   "handleBrowserDNTRequest": false, /* Refuser tout par défaut si Do Not Track est activé sur le navigateur */
 
   "removeCredit": false, /* Retirer le lien de crédit vers tarteaucitron.io */
@@ -61,6 +61,33 @@
   <script>
     tarteaucitron.user.tawktoId = '683d50ca52af751911b6a5c4';
     (tarteaucitron.job = tarteaucitron.job || []).push('tawkto');
+    tarteaucitron.user.umamiId = '41565600-ce48-4a41-9241-dd1e7a373da6';
+    (tarteaucitron.job = tarteaucitron.job || []).push('umami');
+    </script>
+    <script>
+
+    
+    tarteaucitron.services.umami = {
+      "key": "umami",
+      "type": "analytic",
+      "name": "Umami",
+      "needConsent": true,
+      "cookies": ['umami'],
+      "readmoreLink": "https://umami.is/",
+      "js": function () {
+        "use strict";
+        u=document.createElement('script');
+        u.defer=true;
+        u.src='https://cloud.umami.is/script.js';
+        u.dataset.websiteId='41565600-ce48-4a41-9241-dd1e7a373da6';
+        document.head.appendChild(u);
+      },
+      "fallback": function () {
+        "use strict";
+        console.log('umami');
+        // do nothing
+      },
+    };
     </script>
   <meta charset="utf-8">
   <%
@@ -114,11 +141,7 @@
   <link rel="stylesheet" href="<%- config.root %>css/highlight-default.min.css" media="screen" type="text/css">
   <link rel="stylesheet" href="<%- config.root %>css/google-fonts.css" media="screen" type="text/css">
   <link rel="stylesheet" href="<%- config.root %>css/comment.css" media="screen" type="text/css">
-  <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
-  <![endif]-->
+ 
 
   <script src="<%- config.root %>js/jquery-2.0.3.min.js"></script>
   <% if (theme.comment_js) { %>
