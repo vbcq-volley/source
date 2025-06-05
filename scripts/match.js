@@ -285,7 +285,7 @@ concern_group: ${group}
 | Équipe 1 | Équipe 2 | Score | Date |
 |----------|----------|-------|------|
 ${scores[session][group].filter(match => match.type === 'home').map(match => 
-  `| ${match.team1} | ${match.team2} | ${match.score1}-${match.score2} | ${match.date} |`
+`| [${match.team1.replace(/ /g, '-')}](/teams/${match.team1.replace(/ /g, '-')}) | [${match.team2.replace(/ /g, '-')}](/teams/${match.team2.replace(/ /g, '-')}) | ${match.score1}-${match.score2} | ${match.date} |`
 ).join('\n')}
 `;
 const retourContent = `---
@@ -300,7 +300,7 @@ concern_group: ${group}
 | Équipe 1 | Équipe 2 | Score | Date |
 |----------|----------|-------|------|
 ${scores[session][group].filter(match => match.type !== 'home').map(match => 
-  `| ${match.team1} | ${match.team2} | ${match.score1}-${match.score2} | ${match.date} |`
+  `| [${match.team1.replace(/ /g, '-')}](/teams/${match.team1.replace(/ /g, '-')}) | [${match.team2.replace(/ /g, '-')}](/teams/${match.team2.replace(/ /g, '-')}) | ${match.score1}-${match.score2} | ${match.date} |`
 ).join('\n')}
 `;
       // Créer le fichier pour les matchs retour

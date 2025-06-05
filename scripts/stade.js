@@ -140,7 +140,7 @@ ${db.read('match')
 `).join('\n')}
 `;
 
-  const stadeFilename = `${stadesDir}/${stade.stadeName.toLowerCase().replace(/\s+/g, '-')}/index.md`;
+  const stadeFilename = `${stadesDir}/${stade.stadeName.replace(/ /g, '-')}/index.md`;
   if (!fs.existsSync(path.dirname(stadeFilename))) {
     fs.mkdirSync(path.dirname(stadeFilename), { recursive: true });
   }
@@ -157,7 +157,7 @@ layout: page
 # Liste des stades
 
 ${stades.map(stade => `
-## [${stade.stadeName}](/stades/${stade.stadeName.toLowerCase().replace(/\s+/g, '-')}/)
+## [${stade.stadeName.replace(/ /g, '-')}](/stades/${stade.stadeName.replace(/ /g, '-')}/)
 - Adresse: ${stade.address}
 `).join('\n')}
 `;
