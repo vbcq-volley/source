@@ -201,6 +201,8 @@ ${sessions.map(session => `
 - [Matchs Aller](/scores/session-${session}/groupe-${group}/aller/)
 - [Matchs Retour](/scores/session-${session}/groupe-${group}/retour/)
 `).join('\n')}
+## équipes
+${db.read('team').filter(team => parseInt(team.group) === group).map(team => `- [${team.teamName}](/teams/${team.teamName})`).join('\n')}
 `;
   
   const groupIndexFile = `${groupDir}/index.md`;
