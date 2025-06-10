@@ -198,13 +198,7 @@ teams.forEach(team => {
   // Vérifier si le fichier existe avant de le créer
   
     let teamContent = `---\ntitle: Équipe ${team.teamName}\ndate: ${new Date().toISOString()}\nlayout: post\n---\n\n# ${team.teamName}\n\n`;
-    teamContent+=`
-    ## contact \n\n
-    ${team.coach}\n\n
-    ${team.coachContact}\n\n
-    ${team.coachEmail}\n\n
-
-    `
+    teamContent+=`## contact \n\n${team.coach}\n\n${team.coachContact}\n\n${team.coachEmail}\n\n`
     // Ajouter la section des sessions
     if (teamSessions.length > 0) {
       teamContent += `## Sessions\n\n`;
