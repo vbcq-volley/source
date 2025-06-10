@@ -200,9 +200,9 @@ teams.forEach(team => {
     let teamContent = `---\ntitle: Équipe ${team.teamName}\ndate: ${new Date().toISOString()}\nlayout: post\n---\n\n# ${team.teamName}\n\n`;
     teamContent+=`
     ## contact \n\n
-    ${coach}\n\n
-    ${coachContact}\n\n
-    ${coachEmail}\n\n
+    ${team.coach}\n\n
+    ${team.coachContact}\n\n
+    ${team.coachEmail}\n\n
 
     `
     // Ajouter la section des sessions
