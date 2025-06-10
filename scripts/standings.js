@@ -91,8 +91,8 @@ function calculateStandings(group) {
       team1Stats.played++;
       team2Stats.played++;
       
-    team1Stats.points+=match.team1Score
-    team2Stats.points+=match.team2Score
+    team1Stats.points+= parseInt(match.team1Score)
+    team2Stats.points+=parseInt(match.team2Score)
       if (match.team1Score > match.team2Score) {
         team1Stats.won++;
         team2Stats.lost++;
