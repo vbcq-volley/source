@@ -76,6 +76,8 @@
   }
   
   .mypage {
+    display: block;
+    width: auto;
     padding-bottom: 30px;
     border-bottom: 1px solid #ccc;
   }
