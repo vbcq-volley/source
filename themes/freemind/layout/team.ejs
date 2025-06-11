@@ -167,8 +167,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 day.classList.add('match-date');
                 const tooltip = document.createElement('div');
                 tooltip.className = 'match-tooltip';
-                
-                const isHome = matchInfo.team1 === currentTeam;
+                if(matchInfo.team1 === currentTeam||matchInfo.team2 === currentTeam){
+                  const isHome = matchInfo.team1 === currentTeam;
                 const matchType = isHome ? 'Domicile' : 'Extérieur';
                 const location = isHome ? matchInfo.homeLocation : matchInfo.awayLocation;
                 const time = isHome ? formatDate(matchInfo.homeDate).split('à')[1].trim() : formatDate(matchInfo.awayDate).split('à')[1].trim();
@@ -176,6 +176,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 tooltip.textContent = `${currentTeam} vs ${opponent}\n${matchType} - ${location}\n${time}`;
                 day.appendChild(tooltip);
+                }
+              
             }
             
             calendarDates.appendChild(day);
