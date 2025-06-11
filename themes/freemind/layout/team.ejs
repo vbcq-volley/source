@@ -1,5 +1,9 @@
 <!-- title -->
 
+<% if (!page.hasOwnProperty('comment')) { page.comment = true; } %>
+
+
+<%- partial('_partial/article', {item: page, post: true}) %>
 <style>
  
 .calendar {
@@ -180,11 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <div class="row page">
-	<div class="mypage">
-  <div class="title">
-    <h1> <%=page.title%>
-    </h1>
-  </div>
+
 
 
   <div class="calendar">
@@ -226,11 +226,11 @@ document.addEventListener('DOMContentLoaded', function() {
  
 
       <!-- Fin rubrique -->
-
-
-      <%- page.content %>
-   
-    </div>
     
+
+     
+   </div>
+   
+   
 </div>
 <!-- row-fluid -->

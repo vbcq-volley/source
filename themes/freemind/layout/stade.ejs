@@ -2,25 +2,23 @@
 
 
 <div class="row page">
-	<% if (theme.widgets.length) { %>
-        <div class="col-md-9">
-        <% } else { %>
-        <div class="col-md-12">
-        <% } %>
+	
     
            
-            <div id="top_search"></div>
-  <div class="title">
-    <h1>Stade <%=page.title%>
-    </h1>
-  </div>
+  
 
 
      
     
 
  
-    <%site.data.db.stade.entries.filter((it)=>{return it.stadeName==page.title}).forEach(function(it){%>
+    <% if (!page.hasOwnProperty('comment')) { page.comment = true; } %>
+    <% page.title="Stades "+page.title
+    page.content=page.content.replace("map", "<div id='map'></div>")
+    %>
+    <%- partial('_partial/article', {item: page, post: true}) %>
+
+    <%site.data.db.stade.entries.filter((it)=>{return it.stadeName==page.title.replace("Stades ","")}).forEach(function(it){%>
       <!-- Fin rubrique -->
        
     <script>
@@ -56,7 +54,7 @@
     </script>
 <%})%>
 
-      <%- page.content.replace("map", "<div id='map'></div>") %>
+      
 
 
 </div>
