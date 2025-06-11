@@ -107,7 +107,7 @@ seo:
     
   # minify js
   js:
-    enable: true
+    enable: false
     # concatenate all js into one tag
     ## WARNING: DO NOT USING ANOTHER MINIFIER PLUGIN
     concat: false
