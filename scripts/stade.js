@@ -1,6 +1,43 @@
 const fs = require('fs');
 const path = require('path');
-
+const formatDate=(date)=>{
+  if (!date) return '';
+  if (typeof date === 'string' && date.includes('/')) {
+    const [datePart, timePart] = date.split(' ');
+    const [day, month, year] = datePart.split('/');
+    const [hours, minutes] = timePart.split(':');
+    date = new Date(year, month - 1, day, hours, minutes);
+  }
+  const d = new Date(date);
+  const months = [
+    'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+    'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'
+  ];
+  const day = d.getDate();
+  const month = months[d.getMonth()];
+  const year = d.getFullYear();
+  const hours = d.getHours().toString().padStart(2, '0');
+  const minutes = d.getMinutes().toString().padStart(2, '0');
+  return `${day} ${month} ${year} à ${hours}:${minutes}`;
+}
+const parseFrenchDate = (dateSr) => {
+  const dateStr=formatDate(dateSr)
+  console.log(dateStr)
+  const months = {
+    'janvier': 0, 'février': 1, 'mars': 2, 'avril': 3, 'mai': 4, 'juin': 5,
+    'juillet': 6, 'août': 7, 'septembre': 8, 'octobre': 9, 'novembre': 10, 'décembre': 11
+  };
+  
+  const parts = dateStr.split(' ');
+  const day = parseInt(parts[0]);
+  const month = months[parts[1].toLowerCase()];
+  const year = parseInt(parts[2]);
+  const time = parts[4].split(':');
+  const hours = parseInt(time[0]);
+  const minutes = parseInt(time[1]);
+  
+  return new Date(year, month, day, hours, minutes);
+};
 class DB {
     constructor(options, filename) {
         if (!options || typeof options !== 'object') {
@@ -73,32 +110,7 @@ if (!fs.existsSync(stadesDir)) {
 }
 
 // Fonction pour parser une date française du type "31 mars 2025 à 20:30"
-function parseFrenchDate(dateStr) {
-  if (!dateStr) return new Date(0);
-  // Remplacer les mois français par les mois anglais pour que Date les comprenne
-  const mois = {
-    janvier: 'January',
-    février: 'February',
-    mars: 'March',
-    avril: 'April',
-    mai: 'May',
-    juin: 'June',
-    juillet: 'July',
-    août: 'August',
-    septembre: 'September',
-    octobre: 'October',
-    novembre: 'November',
-    décembre: 'December'
-  };
-  let d = dateStr.toLowerCase();
-  d = d.replace(/à/, '').replace(/h/, ':');
-  Object.entries(mois).forEach(([fr, en]) => {
-    d = d.replace(fr, en);
-  });
-  // Enlever les accents éventuels
-  d = d.normalize('NFD').replace(/\p{Diacritic}/gu, '');
-  return new Date(d);
-}
+
 
 // Générer une page pour chaque stade
 stades.forEach(stade => {
@@ -121,7 +133,7 @@ ${db.read('match')
   )
   .map(match => `
 ### ${match.title}
-- Date: ${match.homeDate}
+- Date: ${formatDate(match.homeDate)}
 - Groupe: ${match.group}
 - Session: ${match.session}
 `).join('\n')}
@@ -134,7 +146,7 @@ ${db.read('match')
   )
   .map(match => `
 ### ${match.title}
-- Date: ${match.homeDate}
+- Date: ${formatDate(match.homeDate)}
 - Groupe: ${match.group}
 - Session: ${match.session}
 `).join('\n')}
