@@ -4,16 +4,12 @@
 
    .container-narrow {
     margin: 0 auto;
-    max-width:auto;
-    min-height: auto; /* Hauteur minimale pour pousser le footer en bas */
-   
+    max-width:970px;
   }
   
   .container-narrow > footer {
-    margin-top: auto; /* Pousse le footer en bas */
+    margin-top: 20px;
     text-align: center;
-    padding: 20px 0;
-    background-color: #fff;
   }
   .container-narrow > footer p {
     padding: 5px;
