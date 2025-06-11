@@ -102,93 +102,98 @@
 }
 </style>
 <script>
+document.addEventListener('DOMContentLoaded', function() {
     const calendarDates = document.querySelector('.calendar-dates');
-const monthYear = document.getElementById('month-year');
-const prevMonthBtn = document.getElementById('prev-month');
-const nextMonthBtn = document.getElementById('next-month');
+    const monthYear = document.getElementById('month-year');
+    const prevMonthBtn = document.getElementById('prev-month');
+    const nextMonthBtn = document.getElementById('next-month');
 
-// Récupération des données des matchs et de l'équipe courante
-const calendarBody = document.querySelector('.calendar-body');
-const matchData = JSON.parse(calendarBody.dataset.matchDates);
-const currentTeam = calendarBody.dataset.currentTeam;
+    // Récupération des données des matchs et de l'équipe courante
+    const calendarBody = document.querySelector('.calendar-body');
+    const matchData = JSON.parse(calendarBody.dataset.matchDates);
+    const currentTeam = calendarBody.dataset.currentTeam;
 
-let currentDate = new Date();
-let currentMonth = currentDate.getMonth();
-let currentYear = currentDate.getFullYear();
+    let currentDate = new Date();
+    let currentMonth = currentDate.getMonth();
+    let currentYear = currentDate.getFullYear();
 
-const months = [
-  'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
-  'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
-];
+    const months = [
+        'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+        'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+    ];
 
-function getMatchInfo(year, month, day) {
-    const dateStr = `${day} ${months[month].toLowerCase()} ${year}`;
-    return matchData.find(match => {
-        const matchDate = match.homeDate || match.awayDate;
-        return matchDate && matchDate.includes(dateStr) && 
-               (match.team1 === currentTeam || match.team2 === currentTeam);
+    function getMatchInfo(year, month, day) {
+        const dateStr = `${day} ${months[month].toLowerCase()} ${year}`;
+        return matchData.find(match => {
+            const matchDate = match.homeDate || match.awayDate;
+            return matchDate && matchDate.includes(dateStr) && 
+                   (match.team1 === currentTeam || match.team2 === currentTeam);
+        });
+    }
+
+    function renderCalendar(month, year) {
+        calendarDates.innerHTML = '';
+        monthYear.textContent = `${months[month]} ${year}`;
+
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        for (let i = 0; i < firstDay; i++) {
+            const blank = document.createElement('div');
+            calendarDates.appendChild(blank);
+        }
+
+        const today = new Date();
+        for (let i = 1; i <= daysInMonth; i++) {
+            const day = document.createElement('div');
+            day.textContent = i;
+            
+            if (i === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
+                day.classList.add('current-date');
+            }
+            
+            const matchInfo = getMatchInfo(year, month, i);
+            if (matchInfo) {
+                day.classList.add('match-date');
+                const tooltip = document.createElement('div');
+                tooltip.className = 'match-tooltip';
+                
+                const isHome = matchInfo.team1 === currentTeam;
+                const matchType = isHome ? 'Domicile' : 'Extérieur';
+                const location = isHome ? matchInfo.homeLocation : matchInfo.awayLocation;
+                const time = isHome ? matchInfo.homeDate.split('à')[1].trim() : matchInfo.awayDate.split('à')[1].trim();
+                const opponent = isHome ? matchInfo.team2 : matchInfo.team1;
+                
+                tooltip.textContent = `${currentTeam} vs ${opponent}\n${matchType} - ${location}\n${time}`;
+                day.appendChild(tooltip);
+            }
+            
+            calendarDates.appendChild(day);
+        }
+    }
+
+    // Initialisation du calendrier
+    renderCalendar(currentMonth, currentYear);
+
+    // Gestionnaires d'événements pour la navigation
+    prevMonthBtn.addEventListener('click', () => {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        renderCalendar(currentMonth, currentYear);
     });
-}
 
-function renderCalendar(month, year) {
-    calendarDates.innerHTML = '';
-    monthYear.textContent = `${months[month]} ${year}`;
-
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-    for (let i = 0; i < firstDay; i++) {
-        const blank = document.createElement('div');
-        calendarDates.appendChild(blank);
-    }
-
-    const today = new Date();
-    for (let i = 1; i <= daysInMonth; i++) {
-        const day = document.createElement('div');
-        day.textContent = i;
-        
-        if (i === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
-            day.classList.add('current-date');
+    nextMonthBtn.addEventListener('click', () => {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
         }
-        
-        const matchInfo = getMatchInfo(year, month, i);
-        if (matchInfo) {
-            day.classList.add('match-date');
-            const tooltip = document.createElement('div');
-            tooltip.className = 'match-tooltip';
-            
-            const isHome = matchInfo.team1 === currentTeam;
-            const matchType = isHome ? 'Domicile' : 'Extérieur';
-            const location = isHome ? matchInfo.homeLocation : matchInfo.awayLocation;
-            const time = isHome ? matchInfo.homeDate.split('à')[1].trim() : matchInfo.awayDate.split('à')[1].trim();
-            const opponent = isHome ? matchInfo.team2 : matchInfo.team1;
-            
-            tooltip.textContent = `${currentTeam} vs ${opponent}\n${matchType} - ${location}\n${time}`;
-            day.appendChild(tooltip);
-        }
-        
-        calendarDates.appendChild(day);
-    }
-}
-renderCalendar(currentMonth, currentYear);
-prevMonthBtn.addEventListener('click', () => {
-  currentMonth--;
-  if (currentMonth < 0) {
-    currentMonth = 11;
-    currentYear--;
-  }
-  renderCalendar(currentMonth, currentYear);
+        renderCalendar(currentMonth, currentYear);
+    });
 });
-
-nextMonthBtn.addEventListener('click', () => {
-  currentMonth++;
-  if (currentMonth > 11) {
-    currentMonth = 0;
-    currentYear++;
-  }
-  renderCalendar(currentMonth, currentYear);
-});
-
 </script>
 <div class="row page">
 
@@ -196,7 +201,11 @@ nextMonthBtn.addEventListener('click', () => {
     <h1> <%=page.title%>
     </h1>
   </div>
-
+  <% if (theme.widgets.length) { %>
+    <div class="col-md-9">
+    <% } else { %>
+    <div class="col-md-12">
+    <% } %>
   <div class="calendar">
     <div class="calendar-header">
       <button id="prev-month">‹</button>
@@ -240,6 +249,6 @@ nextMonthBtn.addEventListener('click', () => {
 
       <%- page.content %>
 
-
+    </div>
 </div>
 <!-- row-fluid -->

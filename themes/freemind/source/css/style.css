@@ -5,11 +5,16 @@
    .container-narrow {
     margin: 0 auto;
     max-width:970px;
+    min-height: calc(100vh - 70px); /* Hauteur minimale pour pousser le footer en bas */
+    display: flex;
+    flex-direction: column;
   }
   
   .container-narrow > footer {
-    margin-top: 20px;
+    margin-top: auto; /* Pousse le footer en bas */
     text-align: center;
+    padding: 20px 0;
+    background-color: #fff;
   }
   .container-narrow > footer p {
     padding: 5px;
