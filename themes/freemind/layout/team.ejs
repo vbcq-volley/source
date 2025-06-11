@@ -83,16 +83,7 @@
   display: block;
 }
 
-.match-tooltip::before {
-  content: '';
-  position: absolute;
-  top: -5px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 0 5px 5px 5px;
-  border-style: solid;
-  border-color: transparent transparent #333 transparent;
-}
+
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -189,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <div class="row page">
-
+	<div class="mypage">
   <div class="title">
     <h1> <%=page.title%>
     </h1>
@@ -199,6 +190,8 @@ document.addEventListener('DOMContentLoaded', function() {
     <% } else { %>
     <div class="col-md-12">
     <% } %>
+  </div>
+
   <div class="calendar">
     <div class="calendar-header">
       <button id="prev-month">‹</button>
@@ -240,12 +233,9 @@ document.addEventListener('DOMContentLoaded', function() {
       <!-- Fin rubrique -->
 
 
-      <div>
-        <center>
-      <%- partial('_partial/post/pagination', {page: page}) %>
-        </center>
-      </div>
-
+      <%- page.content %>
+   
     </div>
+    
 </div>
 <!-- row-fluid -->

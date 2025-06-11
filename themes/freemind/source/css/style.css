@@ -4,10 +4,9 @@
 
    .container-narrow {
     margin: 0 auto;
-    max-width:970px;
-    min-height: calc(100vh - 70px); /* Hauteur minimale pour pousser le footer en bas */
-    display: flex;
-    flex-direction: column;
+    max-width:auto;
+    min-height: auto; /* Hauteur minimale pour pousser le footer en bas */
+   
   }
   
   .container-narrow > footer {
