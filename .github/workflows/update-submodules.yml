@@ -13,6 +13,8 @@ permissions:
 jobs:
   update-submodules:
     runs-on: ubuntu-latest
+    outputs:
+      changes: ${{ steps.changes.outputs.changes }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
