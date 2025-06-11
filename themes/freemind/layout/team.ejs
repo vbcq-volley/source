@@ -111,10 +111,12 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     function getMatchInfo(year, month, day) {
-        const dateStr = `${day} ${months[month].toLowerCase()} ${year}`;
+        const formattedDay = day.toString().padStart(2, '0');
+        const formattedMonth = (month + 1).toString().padStart(2, '0');
+        const dateStr = `${formattedDay}/${formattedMonth}/${year}`;
         const match = matchData.find(match => {
-            return (match.homeDate && match.homeDate.includes(dateStr)) || 
-                   (match.awayDate && match.awayDate.includes(dateStr));
+            return (match.homeDate && match.homeDate.startsWith(dateStr)) || 
+                   (match.awayDate && match.awayDate.startsWith(dateStr));
         });
         return match || null;
     }
@@ -139,7 +141,26 @@ document.addEventListener('DOMContentLoaded', function() {
             if (i === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
                 day.classList.add('current-date');
             }
-            
+            const formatDate=(date)=>{
+  if (!date) return '';
+  if (typeof date === 'string' && date.includes('/')) {
+    const [datePart, timePart] = date.split(' ');
+    const [day, month, year] = datePart.split('/');
+    const [hours, minutes] = timePart.split(':');
+    date = new Date(year, month - 1, day, hours, minutes);
+  }
+  const d = new Date(date);
+  const months = [
+    'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+    'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'
+  ];
+  const day = d.getDate();
+  const month = months[d.getMonth()];
+  const year = d.getFullYear();
+  const hours = d.getHours().toString().padStart(2, '0');
+  const minutes = d.getMinutes().toString().padStart(2, '0');
+  return `${day} ${month} ${year} à ${hours}:${minutes}`;
+}
             const matchInfo = getMatchInfo(year, month, i);
             console.log(matchInfo)
             if (matchInfo) {
@@ -150,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const isHome = matchInfo.team1 === currentTeam;
                 const matchType = isHome ? 'Domicile' : 'Extérieur';
                 const location = isHome ? matchInfo.homeLocation : matchInfo.awayLocation;
-                const time = isHome ? matchInfo.homeDate.split('à')[1].trim() : matchInfo.awayDate.split('à')[1].trim();
+                const time = isHome ? formatDate(matchInfo.homeDate).split('à')[1].trim() : formatDate(matchInfo.awayDate).split('à')[1].trim();
                 const opponent = isHome ? matchInfo.team2 : matchInfo.team1;
                 
                 tooltip.textContent = `${currentTeam} vs ${opponent}\n${matchType} - ${location}\n${time}`;
