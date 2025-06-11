@@ -112,11 +112,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function getMatchInfo(year, month, day) {
         const dateStr = `${day} ${months[month].toLowerCase()} ${year}`;
-        return matchData.find(match => {
-            const matchDate = match.homeDate || match.awayDate;
-            return matchDate && matchDate.includes(dateStr) && 
-                   (match.team1 === currentTeam || match.team2 === currentTeam);
+        const match = matchData.find(match => {
+            return (match.homeDate && match.homeDate.includes(dateStr)) || 
+                   (match.awayDate && match.awayDate.includes(dateStr));
         });
+        return match || null;
     }
 
     function renderCalendar(month, year) {
@@ -141,6 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             const matchInfo = getMatchInfo(year, month, i);
+            console.log(matchInfo)
             if (matchInfo) {
                 day.classList.add('match-date');
                 const tooltip = document.createElement('div');
