@@ -30,7 +30,7 @@ concurrency:
 jobs:
   # Single deploy job since we're just deploying
   deploy:
-    if: github.event_name == 'push' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && fromJSON(github.event.workflow_run.outputs.changes) == true)
+    if: github.event_name == 'push' || (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && fromJSON(github.event.workflow_run.outputs).changes == true)
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
