@@ -31,6 +31,7 @@ jobs:
           git submodule update --remote --merge
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'actions@github.com'
+          git config --global user.password ${{ secrets.HEXO_DEPLOY_TOKEN }}
           git add .
           git commit -m "chore: update submodules" || echo "No changes to commit"
           git push origin HEAD:${{ github.ref }}
