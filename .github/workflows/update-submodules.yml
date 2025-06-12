@@ -21,7 +21,7 @@ jobs:
         with:
           submodules: true
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.HEXO_DEPLOY_TOKEN }}
 
       - name: Update submodules
         id: update
