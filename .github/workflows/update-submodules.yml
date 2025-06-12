@@ -1,4 +1,4 @@
-name: Update Submodules
+name: mise a jour du site 
 
 on:
   schedule:
