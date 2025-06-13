@@ -1,0 +1,49 @@
+name: mise a jour du site 
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'  # Exécution toutes les 15 minutes
+  workflow_dispatch:  # Permet l'exécution manuelle
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  update-submodules:
+    runs-on: ubuntu-latest
+    outputs:
+      changes: ${{ steps.changes.outputs.changes }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+          token: ${{ secrets.HEXO_DEPLOY_TOKEN }}
+
+      - name: Update submodules
+        id: update
+        run: |
+          git submodule init
+          git submodule sync --recursive
+          git submodule update --remote --merge
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git config --global user.password ${{ secrets.HEXO_DEPLOY_TOKEN }}
+          git add .
+          git commit -m "chore: update submodules" || echo "No changes to commit"
+          git push origin HEAD:${{ github.ref }}
+          
+      - name: Check for changes
+        id: changes
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+          fi
+
+
+   

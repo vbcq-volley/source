@@ -1,0 +1,6 @@
+[submodule "source"]
+	path = source
+	url = https://github.com/vbcq-volley/content.git
+[submodule "themes/freemind/source/tarteaucitron"]
+	path = themes/freemind/source/tarteaucitron
+	url = https://github.com/AmauriC/tarteaucitron.js.git

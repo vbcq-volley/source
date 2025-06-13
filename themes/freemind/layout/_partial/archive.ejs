@@ -40,8 +40,8 @@
          <!-- display as entry -->
 	     <div class="mypage">
 	       <% page.posts.each(function(item){ %>
-		     <%- partial('post/title', {item: item, index: true}) %>
-		     <%- partial('post/entry', {item: item, index: true}) %>
+		     <%- partial('post/title', {item: item, index: true,button:true}) %>
+		     <%- partial('post/entry', {item: item, index: true,button:true}) %>
 	       <% }); %>
 	     </div>
 	     <div>
