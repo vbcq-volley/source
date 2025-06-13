@@ -8,11 +8,19 @@ permissions:
 
 jobs:
   share:
-    name: Upload Sonar Results to Pixeebot
     runs-on: ubuntu-latest
-    if: ${{ github.event.check_run.name == 'SonarCloud Code Analysis' }}
     steps:
-      - uses: pixee/upload-tool-results-action@v2
+      - name: SonarQube Quality Gate Check
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        env:
+            SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Upload SonarQube Results to Pixeebot
+        uses: pixee/upload-tool-results-action@v2
+        if: always() && steps.sonarqube-analysis.outcome == 'success'
         with:
-          tool: sonar
-          sonar-token: ${{ secrets.SONAR_TOKEN }}
+            tool: sonar
+            sonar-host-url: ${{ vars.SONAR_HOST_URL }}
+            sonar-token: ${{ secrets.SONAR_TOKEN }}
+            sonar-component-key: "thomas-iniguez-visioli_vbcq"
