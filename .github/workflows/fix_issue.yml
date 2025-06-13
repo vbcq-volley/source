@@ -22,5 +22,5 @@ jobs:
         with:
             tool: sonar
             sonar-host-url: ${{ vars.SONAR_HOST_URL }}
-            sonar-token: ${{ secrets.SONAR_TOKEN }}
+            sonar-token: ${{ secrets.PIXEE_SONAR_TOKEN }}
             sonar-component-key: "thomas-iniguez-visioli_vbcq"
