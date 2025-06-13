@@ -125,6 +125,7 @@ layout: stade
 ## Informations
 - **Adresse**: ${stade.address}
 - **Map**: map
+${stade.description}
 ## Matchs à venir
 ${db.read('match')
   .filter(match => 
@@ -172,6 +173,7 @@ ${stades.map(stade => `
 ## [${stade.stadeName.replace(/ /g, '-')}](/stades/${stade.stadeName.replace(/ /g, '-')}/)
 - Adresse: ${stade.address}
 `).join('\n')}
+
 `;
 
 const indexFilename = `${stadesDir}/index.md`;

@@ -195,8 +195,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const location = isHome ? matchInfo.homeLocation : matchInfo.awayLocation;
                 const time = isHome ? formatDate(matchInfo.homeDate).split('à')[1].trim() : formatDate(matchInfo.awayDate).split('à')[1].trim();
                 const opponent = isHome ? matchInfo.team2 : matchInfo.team1;
-                
-                tooltip.textContent = `${currentTeam} vs ${opponent}\n${matchType} - ${location}\n${time}`;
+                const mainteam= isHome ? matchInfo.team1 : matchInfo.team2
+                tooltip.textContent = `${mainteam} vs ${opponent}\n${matchType} - ${location}\n${time}`;
                 day.appendChild(tooltip);
                 }
               

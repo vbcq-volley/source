@@ -225,7 +225,10 @@ teams.forEach(team => {
   if (!fs.existsSync(teamFilename)) {
     fs.mkdirSync(path.dirname(teamFilename), { recursive: true });
   }
-
+  if(!team.hasOwnProperty("description")){
+    team.description=""
+    db.update("team",team.index,team)
+  }
   // Trouver toutes les sessions où l'équipe a joué
   const teamSessions = matches
     .filter(match => match.team1 === team.teamName || match.team2 === team.teamName)
@@ -235,7 +238,7 @@ teams.forEach(team => {
 
   // Vérifier si le fichier existe avant de le créer
   
-    let teamContent = `---\ntitle: Équipe ${team.teamName}\ndate: ${new Date().toISOString()}\nlayout: team\n---\n\n# ${team.teamName}\n\n`;
+    let teamContent = `---\ntitle: Équipe ${team.teamName}\ndate: ${new Date().toISOString()}\nlayout: team\n---\n\n# ${team.teamName}\n\n${team.description}\n\n`;
     teamContent+=`## contact \n\n${team.coach}\n\n${team.coachContact}\n\n${team.coachEmail}\n\n`
     // Ajouter la section des sessions
     if (teamSessions.length > 0) {

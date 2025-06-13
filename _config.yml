@@ -191,12 +191,12 @@ auto_dir_categorize:
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: git
-  repo: 
-    github:
-      url: "https://github.com/vbcq-volley/source.git"
-      branch: pages
-      token: $HEXO_DEPLOY_TOKEN
-  message: "chore: update build"
-  name: alphaleadership
-  email: alphaleadershipyt@protonmail.com
+  - type: git
+    repo: 
+      github:
+        url: "https://github.com/vbcq-volley/source.git"
+        branch: pages
+        token: $HEXO_DEPLOY_TOKEN
+    message: "chore: update build"
+    name: alphaleadership
+    email: alphaleadershipyt@protonmail.com
