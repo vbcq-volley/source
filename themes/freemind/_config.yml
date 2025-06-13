@@ -1,4 +1,4 @@
-slogan: "Yet another bootstrap theme."
+slogan: "Volley Ball Corpo Quimper"
 
 theme: cerulean
 inverse: true
@@ -10,44 +10,33 @@ menu:
     url: archives
     intro: "All the articles."
     icon: "fa fa-archive"
-  - title: Categories
-    url: categories
-    intro: "All the categories."
-    icon: "fa fa-folder"
-  - title: Tags
-    url: tags
-    intro: "All the tags."
-    icon: "fa fa-tags"
-  - title: About
-    url: about
-    intro: "About me."
-    icon: "fa fa-user"
-  - title: "groupes 1"
+
+  - title: "groupe 1"
     url: /groupe-1/ 
-    intro: "groupes 1"
+    intro: "groupe 1"
     icon: "fa fa-group"
-  - title: "groupes 2"
+  - title: "groupe 2"
     url: /groupe-2/
-    intro: "groupes 2"
+    intro: "groupe 2"
     icon: "fa fa-group"
-  - title: "groupes 3"
+  - title: "groupe 3"
     url: /groupe-3/
-    intro: "groupes 3"
+    intro: "groupe 3"
     icon: "fa fa-group"
   
 
 links:
-  - title: Freemind
-    url: https://github.com/wzpan/freemind/
-    intro: "Freemind's Github repository."
+  - title: groupe 1
+    url: /groupe-1/
+    intro: "championnat du groupe 1"
     icon: "fa fa-github"
-  - title: "My Github"
-    url: http://www.github.com/wzpan
-    intro: "My Github account."
+  - title: "groupe 2"
+    url: /groupe-2/
+    intro: "championnat du groupe 2"
     icon: "fa fa-github"
-  - title: "My LinkedIn"
-    url: http://www.linkedin.com/in/hahack
-    intro: "My Linkin account."
+  - title: "groupe 3"
+    url: /groupe-3/
+    intro: "championnat du groupe 3"
     icon: "fa fa-linkedin"
 
 widgets:
@@ -56,7 +45,7 @@ widgets:
 - category
 - tagcloud
 - recent_posts
-
+- links
 - rss  # uncomment this to show an RSS button in the sidebar
 
 rss: atom.xml

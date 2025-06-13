@@ -200,3 +200,7 @@ deploy:
     message: "chore: update build"
     name: alphaleadership
     email: alphaleadershipyt@protonmail.com
+  #- type: sftp 
+   # host: 100.114.38.245
+    #remotePath: "/var/www/html/"
+
