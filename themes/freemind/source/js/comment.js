@@ -20,11 +20,11 @@
 'use strict';
 
 var type, username, repo, client_id, client_secret, no_comment, go_to_comment, btn_class, comments_target, recent_comments_target, loading_target;
-var github_addr = "https://github.com/";
-var github_api_addr = "https://api.github.com/repos/";
-var oschina_addr = "http://git.oschina.net/";
-var oschina_api_addr = "http://git.oschina.net/api/v5/repos/";
-var spinOpts = {
+const github_addr = "https://github.com/";
+const github_api_addr = "https://api.github.com/repos/";
+const oschina_addr = "http://git.oschina.net/";
+const oschina_api_addr = "http://git.oschina.net/api/v5/repos/";
+const spinOpts = {
     lines: 13,
     length: 10,
     width: 6,
@@ -82,11 +82,11 @@ var _getComment = function _getComment(params, callback) {
 var _getCommentsUrl = function _getCommentsUrl(params, callback) {
     var issue_title = void 0,
         page = void 0;
-    var found = false;
+    let found = false;
     issue_title = params.issue_title;
     page = params.page;
 
-    var api_addr = type == 'github' ? github_api_addr : oschina_api_addr;
+    const api_addr = type == 'github' ? github_api_addr : oschina_api_addr;
     $.ajax({
         url: api_addr + username + '/' + repo + '/issues?page=' + page,
         dataType: 'json',
@@ -122,8 +122,8 @@ var _getCommentsUrl = function _getCommentsUrl(params, callback) {
 };
 
 var _getIssue = function _getIssue(issue_id, callback) {
-    var api_addr = type == 'github' ? github_api_addr : oschina_api_addr;
-    var issue_url = api_addr + username + '/' + repo + '/issues/' + issue_id;
+    const api_addr = type == 'github' ? github_api_addr : oschina_api_addr;
+    const issue_url = api_addr + username + '/' + repo + '/issues/' + issue_id;
     _getIssueByUrl(issue_url, function (issue) {
         callback && typeof callback === "function" && callback(issue);
         callback = null;
@@ -155,19 +155,19 @@ var _getIssueByUrl = function _getIssueByUrl(issue_url, callback) {
 };
 
 var _renderComment = function _renderComment(comment) {
-    var timeagoInstance = timeago();
-    var user = comment.user;
-    var content = marked(comment.body);
-    var ago = timeagoInstance.format(comment.created_at);
-    var current_user = user.login == username ? "current-user" : "";
-    var addr = type == 'github' ? github_addr : oschina_addr;
-    var owner = user.login == username ? "\n        <span class=\"timeline-comment-label text-bold tooltipped tooltipped-multiline tooltipped-s\" aria-label=\"" + username + " is the author of this blog.\">\n        Owner\n    </span>\n        " : '';
+    const timeagoInstance = timeago();
+    const user = comment.user;
+    const content = marked(comment.body);
+    const ago = timeagoInstance.format(comment.created_at);
+    const current_user = user.login == username ? "current-user" : "";
+    const addr = type == 'github' ? github_addr : oschina_addr;
+    const owner = user.login == username ? "\n        <span class=\"timeline-comment-label text-bold tooltipped tooltipped-multiline tooltipped-s\" aria-label=\"" + username + " is the author of this blog.\">\n        Owner\n    </span>\n        " : '';
     return "\n        <div class=\"timeline-comment-wrapper js-comment-container\">\n        <div class=\"avatar-parent-child timeline-comment-avatar\">\n        <a href=\"" + addr + user.login + "\">\n        <img alt=\"@" + user.login + "\" class=\"avatar rounded-1\" height=\"44\" src=\"" + user.avatar_url + "&amp;s=88\" width=\"44\">\n        </a>\n        </div>\n        <div id=\"issuecomment-310820108\" class=\"comment previewable-edit js-comment js-task-list-container  timeline-comment js-reorderable-task-lists reorderable-task-lists " + current_user + "\" data-body-version=\"0ff4a390ed2be378bf5044aa6dc1510b\">\n\n        <div class=\"timeline-comment-header\">\n        " + owner + "\n        <h3 class=\"timeline-comment-header-text f5 text-normal\">\n\n        <strong>\n        <a href=\"" + addr + user.login + "\" class=\"author\">" + user.login + "</a>\n        \n    </strong>\n\n    commented  \n\n        <a href=\"#issuecomment-" + comment.id + "\" class=\"timestamp\"><relative-time datetime=\"" + comment.created_at + "\" title=\"" + comment.created_at + "\">" + ago + "</relative-time></a>\n\n    </h3>\n        </div>\n        \n        <table class=\"d-block\">\n        <tbody class=\"d-block\">\n        <tr class=\"d-block\">\n        <td class=\"d-block comment-body markdown-body js-comment-body\">\n        " + content + "\n    </td>\n        </tr>\n        </tbody>\n        </table>\n        </div>\n        </div>\n        ";
 };
 
 var _renderRecentComment = function _renderRecentComment(user, title, content, time, url, callback) {
-    var addr = type == 'github' ? github_addr : oschina_addr;
-    var res = "\n        <div class=\"comment-item\">\n          <div class=\"row comment-widget-head\">\n            <div class=\"xl-col-3 comment-widget-avatar\">\n              <a href=\"" + addr + user.login + "\">\n                <img alt=\"@" + user.login + "\" class=\"avatar rounded-1\" height=\"44\" src=\"" + user.avatar_url + "&amp;s=88\" width=\"44\">\n              </a>\n            </div>\n            <div class=\"comment-widget-body\">\n              <span><a class=\"comment-widget-user\" href=\"" + addr + user.login + "\" target=\"_blank\">" + user.login + "</a> </span>\n              <div class=\"comment-widget-content\">" + content + "</div>\n            </div>\n          </div>\n          <br/>\n          <div class=\"comment-widget-meta\">\n            <span class=\"comment-widget-title\">" + title + "</span> | <span class=\"comment-widget-date\">" + time + "</span>\n          </div>\n        </div>\n        ";
+    const addr = type == 'github' ? github_addr : oschina_addr;
+    const res = "\n        <div class=\"comment-item\">\n          <div class=\"row comment-widget-head\">\n            <div class=\"xl-col-3 comment-widget-avatar\">\n              <a href=\"" + addr + user.login + "\">\n                <img alt=\"@" + user.login + "\" class=\"avatar rounded-1\" height=\"44\" src=\"" + user.avatar_url + "&amp;s=88\" width=\"44\">\n              </a>\n            </div>\n            <div class=\"comment-widget-body\">\n              <span><a class=\"comment-widget-user\" href=\"" + addr + user.login + "\" target=\"_blank\">" + user.login + "</a> </span>\n              <div class=\"comment-widget-content\">" + content + "</div>\n            </div>\n          </div>\n          <br/>\n          <div class=\"comment-widget-meta\">\n            <span class=\"comment-widget-title\">" + title + "</span> | <span class=\"comment-widget-date\">" + time + "</span>\n          </div>\n        </div>\n        ";
     callback && typeof callback === "function" && callback(res);
     callback = null;
 };
@@ -180,12 +180,12 @@ var _getRecentCommentList = function _getRecentCommentList(comment_list, i, rend
     }
     var comment = comments[i];
     if (!comment) return;
-    var content = marked(comment.body);
-    var title = comment.title;
-    var user = comment.user;
-    var timeagoInstance = timeago();
-    var time = timeagoInstance.format(comment.created_at);
-    var url = comment.html_url;
+    const content = marked(comment.body);
+    const title = comment.title;
+    const user = comment.user;
+    const timeagoInstance = timeago();
+    const time = timeagoInstance.format(comment.created_at);
+    const url = comment.html_url;
     if (!content || content == '') {
         i++;
         _getRecentCommentList(comment_list, i, render_count, total_count, comments, callback);
@@ -232,8 +232,8 @@ var _renderHTML = function _renderHTML(params) {
     comments = params.comments;
     comments_url = params.comments_url;
     issue_title = params.issue_title;
-    var site = type == 'oschina' ? '<a href="http://oschina.net" class="discussion-item-entity" target="_blank">OSChina issue</a>' : '<a href="http://github.com" class="discussion-item-entity" target="_blank">Github issue</a>';
-    var footer = `
+    const site = type == 'oschina' ? '<a href="http://oschina.net" class="discussion-item-entity" target="_blank">OSChina issue</a>' : '<a href="http://github.com" class="discussion-item-entity" target="_blank">Github issue</a>';
+    const footer = `
 <div class="discussion-item discussion-item-labeled">
     <h3 class="discussion-item-header f5 text-normal" id="event-1157063333">
 
@@ -246,9 +246,9 @@ var _renderHTML = function _renderHTML(params) {
 </div>
     `;
     var addr = type == 'github' ? github_addr : oschina_addr;
-    var api_addr = type == 'github' ? github_api_addr : oschina_api_addr;
+    const api_addr = type == 'github' ? github_api_addr : oschina_api_addr;
     if ((!issue || !issue.body || issue.body == "") && (!comments || comments.length <= 0)) {
-        var _res = "\n            <div class='js-discussion no-comment'>\n            <span>" + no_comment + "</span>\n            </div>\n            ";
+        const _res = "\n            <div class='js-discussion no-comment'>\n            <span>" + no_comment + "</span>\n            </div>\n            ";
         $(comments_target).append(_res);
     } else {
         var _res2 = "\n            <div class=\"discussion-timeline js-quote-selection-container\">\n            <div class=\"js-discussion js-socket-channel\">\n            ";
@@ -424,7 +424,7 @@ var getComments = function getComments(params) {
         });
     } else {
         var api_addr = type == 'github' ? github_api_addr : oschina_api_addr;
-        var _comments_url = api_addr + username + '/' + repo + '/issues/' + issue_id + '/comments';
+        const _comments_url = api_addr + username + '/' + repo + '/issues/' + issue_id + '/comments';
         _getIssue(issue_id, function (issue) {
             _getComment({ comments: comments,
                 comments_url: _comments_url,

@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$(window).scroll(function(){  //只要窗口滚动,就触发下面代码 
-        var scrollt = document.documentElement.scrollTop + document.body.scrollTop; //获取滚动后的高度 
+        const scrollt = document.documentElement.scrollTop + document.body.scrollTop; //获取滚动后的高度 
         if(scrollt>200){  //判断滚动后高度超过200px
             $("#gotop").fadeIn(400); //淡出
 			if($(window).width() >= 1200){
@@ -20,7 +20,7 @@ $(document).ready(function() {
 		$(".navbar").fadeTo(100, 1);
 	});
     $(".navbar").mouseleave(function(){
-		var scrollt = document.documentElement.scrollTop + document.body.scrollTop;
+		const scrollt = document.documentElement.scrollTop + document.body.scrollTop;
 		if (scrollt>200) {
 			$(".navbar").fadeTo(100, 0.2);
 		}
