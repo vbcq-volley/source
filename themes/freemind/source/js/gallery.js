@@ -27,8 +27,8 @@
   };
 
   $('.gallery').each(function(){
-    const $this = $(this), current = 0, photoset = $this.children('.photoset').children(), all = photoset.length, loading = true;
-
+    const $this = $(this), current = 0, photoset = $this.children('.photoset').children(), all = photoset.length, 
+	let loading = true;
     play($this, photoset.eq(0), function(){
       loading = false;
     });
