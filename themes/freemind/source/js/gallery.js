@@ -3,7 +3,7 @@
   $('.content').each(function(i){
     $(this).find('img').each(function(){
       if (!$(this).hasClass('nofancybox')){
-        var alt = this.alt;
+        const alt = this.alt;
         if (alt){
           $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox" rel="gallery' + i + '" />');
         } else {
@@ -14,13 +14,11 @@
   });
 
   // Gallery
-  var play = function(parent, item, callback){
-    var width = parent.width();
+  const play = function(parent, item, callback){
+    const width = parent.width();
 
     item.imagesLoaded(function(){
-      var _this = this[0],
-        nWidth = _this.naturalWidth,
-        nHeight = _this.naturalHeight;
+      const _this = this[0], nWidth = _this.naturalWidth, nHeight = _this.naturalHeight;
 
       callback();
       this.animate({opacity: 1}, 500);
@@ -29,19 +27,15 @@
   };
 
   $('.gallery').each(function(){
-    var $this = $(this),
-      current = 0,
-      photoset = $this.children('.photoset').children(),
-      all = photoset.length,
-      loading = true;
-
+    const $this = $(this), current = 0, photoset = $this.children('.photoset').children(), all = photoset.length, 
+	let loading = true;
     play($this, photoset.eq(0), function(){
       loading = false;
     });
 
     $this.on('click', '.prev', function(){
       if (!loading){
-        var next = (current - 1) % all;
+        const next = (current - 1) % all;
         loading = true;
 
         play($this, photoset.eq(next), function(){
@@ -52,7 +46,7 @@
       }
     }).on('click', '.next', function(){
       if (!loading){
-        var next = (current + 1) % all;
+        const next = (current + 1) % all;
         loading = true;
 
         play($this, photoset.eq(next), function(){
