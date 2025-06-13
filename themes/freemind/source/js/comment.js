@@ -273,8 +273,8 @@ var _renderHTML = function _renderHTML(params) {
 };
 
 var CompareDate = function CompareDate(a, b) {
-    var d1 = a['created_at'].replace('T', ' ').replace('Z', '').replace(/-/g, "\/");
-    var d2 = b['created_at'].replace('T', ' ').replace('Z', '').replace(/-/g, "\/");
+    var d1 = a['created_at'].replace('T', ' ').replace('Z', '').replace(/-/g, "/");
+    var d2 = b['created_at'].replace('T', ' ').replace('Z', '').replace(/-/g, "/");
     return new Date(d1) > new Date(d2);
 };
 
