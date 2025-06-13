@@ -1,0 +1,282 @@
+<!-- title -->
+
+<% if (!page.hasOwnProperty('comment')) { page.comment = true; } %>
+
+
+<%- partial('_partial/article', {item: page, post: true}) %>
+<style>
+ 
+.calendar {
+  width: 350px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+.calendar-header button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+#month-year {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.calendar-weekdays, .calendar-dates {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.calendar-weekdays div, .calendar-dates div {
+  text-align: center;
+  padding: 10px;
+}
+.calendar-weekdays {
+  background-color: #eaeef3;
+}
+.calendar-weekdays div {
+  font-weight: bold;
+}
+.calendar-dates div {
+  border-bottom: 1px solid #eaeef3;
+  cursor: pointer;
+}
+.calendar-dates div:hover {
+  background-color: #f1f1f1;
+}
+.current-date {
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 50%;
+}
+
+.match-date {
+  position: relative;
+}
+
+.match-date::after {
+  content: "⚽";
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: 12px;
+  color: #ff6b6b;
+}
+
+.match-tooltip {
+  position: absolute;
+  background-color: #333;
+  color: white;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  z-index: 1000;
+  display: none;
+  white-space: nowrap;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 5px;
+}
+
+.match-date:hover .match-tooltip {
+  display: block;
+}
+
+
+</style>
+<script>
+          const formatDate=(date)=>{
+  if (!date) return '';
+  if (typeof date === 'string' && date.includes('/')) {
+    const [datePart, timePart] = date.split(' ');
+    const [day, month, year] = datePart.split('/');
+    const [hours, minutes] = timePart.split(':');
+    date = new Date(year, month - 1, day, hours, minutes);
+  }
+  const d = new Date(date);
+  const months = [
+    'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+    'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'
+  ];
+  const day = d.getDate();
+  const month = months[d.getMonth()];
+  const year = d.getFullYear();
+  const hours = d.getHours().toString().padStart(2, '0');
+  const minutes = d.getMinutes().toString().padStart(2, '0');
+  return `${day} ${month} ${year} à ${hours}:${minutes}`;
+}
+document.addEventListener('DOMContentLoaded', function() {
+    const calendarDates = document.querySelector('.calendar-dates');
+    const monthYear = document.getElementById('month-year');
+    const prevMonthBtn = document.getElementById('prev-month');
+    const nextMonthBtn = document.getElementById('next-month');
+
+    // Récupération des données des matchs et de l'équipe courante
+    const calendarBody = document.querySelector('.calendar-body');
+    const matchData = JSON.parse(calendarBody.dataset.matchDates);
+    const currentTeam = calendarBody.dataset.currentTeam.replace("Équipe ","");
+
+    let currentDate = new Date();
+    let currentMonth = currentDate.getMonth();
+    let currentYear = currentDate.getFullYear();
+
+    const months = [
+        'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+        'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+    ];
+
+    function getMatchInfo(year, month, day) {
+        const formattedDay = day.toString().padStart(2, '0');
+        const formattedMonth = (month + 1).toString().padStart(2, '0');
+        const dateStr = `${formattedDay}/${formattedMonth}/${year}`;
+        const match = matchData.find(match => {
+            return (match.homeDate && match.homeDate.startsWith(dateStr)) || 
+                   (match.awayDate && match.awayDate.startsWith(dateStr));
+        });
+        if(match){
+          match.aujourdhui=dateStr
+        }
+        
+        return match || null;
+    }
+
+    function renderCalendar(month, year) {
+        calendarDates.innerHTML = '';
+        monthYear.textContent = `${months[month]} ${year}`;
+
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        for (let i = 0; i < firstDay; i++) {
+            const blank = document.createElement('div');
+            calendarDates.appendChild(blank);
+        }
+
+        const today = new Date();
+        for (let i = 1; i <= daysInMonth; i++) {
+            const day = document.createElement('div');
+            day.textContent = i;
+            
+            if (i === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
+                day.classList.add('current-date');
+            }
+    
+            const matchInfo = getMatchInfo(year, month, i);
+            
+            if (matchInfo) {
+               
+                console.log(matchInfo.team1)
+                console.log(matchInfo.team2)
+                console.log(matchInfo.team1 === currentTeam)
+                console.log(matchInfo.team2 === currentTeam)
+                console.log(currentTeam)
+                console.log(matchInfo.team1 === currentTeam && matchInfo.team2 === currentTeam)
+                function isTeamInMatch(match, team) {
+                  if(match.team1 === team){
+                    return true 
+                  }
+                  if(match.team2 === team){
+                    return true
+                  }
+                    return false
+                }
+                if(isTeamInMatch(matchInfo, currentTeam)){
+                  console.log(matchInfo)
+                  day.classList.add('match-date');
+                const tooltip = document.createElement('div');
+                tooltip.className = 'match-tooltip';
+                  const isHome = matchInfo.homeDate.includes(matchInfo.aujourdhui);
+                const matchType = isHome ? 'Domicile' : 'Extérieur';
+                const location = isHome ? matchInfo.homeLocation : matchInfo.awayLocation;
+                const time = isHome ? formatDate(matchInfo.homeDate).split('à')[1].trim() : formatDate(matchInfo.awayDate).split('à')[1].trim();
+                const opponent = isHome ? matchInfo.team2 : matchInfo.team1;
+                const mainteam= isHome ? matchInfo.team1 : matchInfo.team2
+                tooltip.textContent = `${mainteam} vs ${opponent}\n${matchType} - ${location}\n${time}`;
+                day.appendChild(tooltip);
+                }
+              
+            }
+            
+            calendarDates.appendChild(day);
+        }
+    }
+
+    // Initialisation du calendrier
+    renderCalendar(currentMonth, currentYear);
+
+    // Gestionnaires d'événements pour la navigation
+    prevMonthBtn.addEventListener('click', () => {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        renderCalendar(currentMonth, currentYear);
+    });
+
+    nextMonthBtn.addEventListener('click', () => {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        renderCalendar(currentMonth, currentYear);
+    });
+});
+</script>
+<div class="row page">
+
+
+
+  <div class="calendar">
+    <div class="calendar-header">
+      <button id="prev-month">‹</button>
+      <div id="month-year"></div>
+      <button id="next-month">›</button>
+    </div>
+    <div class="calendar-body" 
+         data-match-dates='<%- JSON.stringify(site.data.db.match.entries.map(match => ({
+             date: match.date,
+             team1: match.team1,
+             team2: match.team2,
+             homeDate: match.homeDate,
+             awayDate: match.awayDate,
+             homeLocation: match.homeLocation,
+             awayLocation: match.awayLocation
+         }))) %>'
+         data-current-team="<%= page.title %>">
+      <div class="calendar-weekdays">
+        <div class="calendar-weekdays">
+            <div>Lun</div>
+            <div>Mar</div>
+            <div>Mer</div>
+            <div>Jeu</div>
+            <div>Ven</div>
+            <div>Sam</div>
+            <div>Dim</div>
+          </div>
+          
+      </div>
+      <div class="calendar-dates">
+        <!-- Dates will be populated here -->
+      </div>
+    </div>
+  </div>
+
+
+ 
+
+      <!-- Fin rubrique -->
+    
+
+     
+   </div>
+   
+   
+</div>
+<!-- row-fluid -->

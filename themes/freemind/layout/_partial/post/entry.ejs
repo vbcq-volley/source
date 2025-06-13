@@ -18,5 +18,8 @@
 		<%- item.content %>
 	<% } %>
 	</div>
-  <a type="button" href="<%- url_for(item.path) %>#more" class="btn btn-default more"><%= __('read_more') %></a>
+	<%if(button){%>
+		<a type="button" href="<%- url_for(item.path) %>#more" class="btn btn-default more"><%= __('read_more') %></a>
+	<%}%>
+  
 </div>

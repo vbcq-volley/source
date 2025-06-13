@@ -1,6 +1,4 @@
 <div class="row page">
-<script src="../../source/js/index.js"></script>
-<script src="/_vercel/speed-insights/script.js"></script>
 
 	<% if (theme.widgets.length) { %>
 	<div class="col-md-9">
@@ -18,7 +16,7 @@
 		<% site.posts.each(function(item){ %>
             <% if (item.top) { %>
 			  <%- partial('post/title_top', {item: item, index: index}) %>
-			  <%- partial('post/entry', {item: item, index: index}) %>
+			  <%- partial('post/entry', {item: item, index: index,button:true}) %>
             <% } %>
 		<% }); %>
         <% } %>
@@ -26,7 +24,7 @@
         <% page.posts.each(function(item){ %>
            <% if (!item.top) { %>
 			  <%- partial('post/title', {item: item, index: index}) %>
-			  <%- partial('post/entry', {item: item, index: index}) %>
+			  <%- partial('post/entry', {item: item, index: index,button:true}) %>
            <% } %>
 		<% }); %>
 
