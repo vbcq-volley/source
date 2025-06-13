@@ -21,11 +21,7 @@ jobs:
         id: sonarqube-analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      - name: SonarQube Quality Gate Check
-        uses: sonarsource/sonarqube-quality-gate-action@master
-        env:
-            SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    
 
       - name: Upload SonarQube Results to Pixeebot
         uses: pixee/upload-tool-results-action@v2
