@@ -41,6 +41,7 @@
       <p>Pour faciliter la gestion du classement, les résultats sont à communiquer au responsable de groupe dès la fin des matchs [*par les deux équipes*]</p>
   
       <p>Pour + d'info consulter l'article suivant&nbsp;: <a href="" class="spip_in">Calcul des points du championnat</a></p>
+      <%- item.content %>	
       <div class="matches-table">
         <table>
           <tr>
@@ -53,17 +54,17 @@
           </tr>
           <%site.data.db.match.entries.filter((it)=>{return it.group==item.group}).forEach(function(it){%>
             <tr>
-              <td><a href="<%= url_for('/teams/' + it.team1.toLowerCase().replace(/\s+/g, '-')) %>"><%= it.team1 %></a></td>
-              <td><a href="<%= url_for('/teams/' + it.team2.toLowerCase().replace(/\s+/g, '-')) %>"><%= it.team2 %></a></td>
+              <td><a href="<%= url_for('/teams/' + it.team1.replace(/\s+/g, '-')) %>"><%= it.team1 %></a></td>
+              <td><a href="<%= url_for('/teams/' + it.team2.replace(/\s+/g, '-')) %>"><%= it.team2 %></a></td>
               <td><%= it.homeDate %></td>
               <td><%= it.awayDate %></td>
-              <td><a href="<%= url_for('/stades/' + it.homeLocation.toLowerCase().replace(/\s+/g, '-')) %>"><%= it.homeLocation %></a></td>
-              <td><a href="<%= url_for('/stades/' + it.awayLocation.toLowerCase().replace(/\s+/g, '-')) %>"><%= it.awayLocation %></a></td>
+              <td><a href="<%= url_for('/stades/' + it.homeLocation.replace(/\s+/g, '-')) %>"><%= it.homeLocation %></a></td>
+              <td><a href="<%= url_for('/stades/' + it.awayLocation.replace(/\s+/g, '-')) %>"><%= it.awayLocation %></a></td>
             </tr>
           <% }); %>
         </table>
       </div> 
-	  <%- item.content %>	
+
       
 	</div>
 

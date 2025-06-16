@@ -193,7 +193,13 @@ layout: championnat
 group: ${group}
 ---
 
-# Groupe ${group}
+# Classement du Groupe ${group}
+
+| Position | Équipe | Pts | J | G | N | P  |
+|----------|--------|-----|---|-----|-----|-----|
+${standings.map((team, index) => 
+  `| ${index + 1} | [${team.teamName.replace(/ /g, '-')}](/teams/${team.teamName.replace(/ /g, '-')}) | ${team.points} | ${team.played} | ${team.won} | ${team.drawn} | ${team.lost} |`
+).join('\n')}
 
 ## Sessions
 
@@ -202,13 +208,7 @@ ${[...new Set(db.read('match').filter(match => parseInt(match.group) === group).
 - [Matchs Aller](/scores/session-${session}/groupe-${group}/aller/)
 - [Matchs Retour](/scores/session-${session}/groupe-${group}/retour/)
 `).join('\n')}
-# Classement du Groupe ${group}
-
-| Position | Équipe | Pts | J | G | N | P  |
-|----------|--------|-----|---|-----|-----|-----|
-${standings.map((team, index) => 
-  `| ${index + 1} | [${team.teamName.replace(/ /g, '-')}](/teams/${team.teamName.replace(/ /g, '-')}) | ${team.points} | ${team.played} | ${team.won} | ${team.drawn} | ${team.lost} |`
-).join('\n')}`;
+`;
   
   const groupIndexFile = `${groupDir}/index.md`;
   fs.writeFileSync(groupIndexFile, groupContent);
