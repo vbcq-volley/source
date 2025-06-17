@@ -13,9 +13,15 @@
 		</div>
 	<% } %>
 	<% if (item.excerpt && index) { %>
-		<%- item.excerpt %>
+		<article>
+			<%- item.excerpt %>
+		</article>
+		
 	<% } else { %>
-		<%- item.content %>
+		<article>
+			<%- item.content %>
+		</article>
+	
 	<% } %>
 	</div>
 	<%if(button){%>
