@@ -42,28 +42,8 @@
   
       <p>Pour + d'info consulter l'article suivant&nbsp;: <a href="" class="spip_in">Calcul des points du championnat</a></p>
       <%- item.content %>	
-      <div class="matches-table">
-        <table>
-          <tr>
-            <th>équipe 1</th>
-            <th>équipe 2</th>
-            <th>date aller</th>
-            <th>date retour</th>
-            <th>lieu aller</th>
-            <th>lieu retour</th>
-          </tr>
-          <%site.data.db.match.entries.filter((it)=>{return it.group==item.group}).forEach(function(it){%>
-            <tr>
-              <td><a href="<%= url_for('/teams/' + it.team1.replace(/\s+/g, '-')) %>"><%= it.team1 %></a></td>
-              <td><a href="<%= url_for('/teams/' + it.team2.replace(/\s+/g, '-')) %>"><%= it.team2 %></a></td>
-              <td><%= it.homeDate %></td>
-              <td><%= it.awayDate %></td>
-              <td><a href="<%= url_for('/stades/' + it.homeLocation.replace(/\s+/g, '-')) %>"><%= it.homeLocation %></a></td>
-              <td><a href="<%= url_for('/stades/' + it.awayLocation.replace(/\s+/g, '-')) %>"><%= it.awayLocation %></a></td>
-            </tr>
-          <% }); %>
-        </table>
-      </div> 
+      
+     
 
       
 	</div>
