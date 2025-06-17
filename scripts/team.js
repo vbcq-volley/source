@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const formatDate=(date)=>{
-  console.log(date)
+  console.log("f"+date)
   if (!date) return '';
   if (typeof date === 'string' && date.includes('/')) {
     const [datePart, timePart] = date.split(' ');
@@ -24,6 +24,7 @@ const formatDate=(date)=>{
   return `${day} ${month} ${year} à ${hours}:${minutes}`;
 }
 const parseFrenchDate = (dateSr,need=true) => {
+  console.log(dateSr)
   let dateStr;
   if(dateSr.includes("/")){
      dateStr=formatDate(dateSr)
@@ -253,10 +254,10 @@ teams.forEach(team => {
     // Ajouter la section des sessions
     if (teamSessions.length > 0) {
 
-      teamSessions.forEach(session => {
+ 
  
         const sessionMatches = matches
-          .filter(match => match.session === session && (match.team1 === team.teamName || match.team2 === team.teamName))
+          .filter(match =>  (match.team1 === team.teamName || match.team2 === team.teamName))
           .flatMap(match => {
             const homeResult = results.find(r => r.matchId === match._id && r.matchType === 'home');
             const awayResult = results.find(r => r.matchId === match._id && r.matchType === 'away');
@@ -352,7 +353,7 @@ teams.forEach(team => {
             teamContent += `\n`;
           }
         }
-      });
+
     }
 
     fs.writeFileSync(teamFilename, teamContent);
