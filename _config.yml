@@ -194,8 +194,8 @@ deploy:
   - type: git
     repo: 
       github:
-        url: "https://github.com/vbcq-volley/source.git"
-        branch: pages
+        url: "https://github.com/vbcq-volley/vbcq-volley.github.io.git"
+      
         token: $HEXO_DEPLOY_TOKEN
     message: "chore: update build"
     name: alphaleadership
