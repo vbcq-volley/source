@@ -176,10 +176,18 @@ const classement=require("./standings")
 console.log(db.data)
 const groups = [...new Set(db.read('team').map(team => parseInt(team.group)))];
 const sessions = [...new Set(db.read('match').map(match => parseInt(match.session)))];
+const matches = db.read('match');
+const results = db.read('result');
 console.log("les donnée sont ")
 console.log(groups,sessions)
 // Créer les dossiers pour chaque groupe si ils n'existent pas
+
 for (const group of groups) {
+    const teamSessions = matches
+    .filter(match => parseInt(match.group)=== group)
+    .map(match => match.session)
+    .filter((session, index, self) => self.indexOf(session) === index)
+    .sort();
   const groupDir = `source/groupe-${group}`;
   if (!fs.existsSync(groupDir)) {
     fs.mkdirSync(groupDir, { recursive: true });
@@ -201,15 +209,108 @@ ${standings.map((team, index) =>
   `| ${index + 1} | [${team.teamName.replace(/ /g, '-')}](/teams/${team.teamName.replace(/ /g, '-')}) | ${team.points} | ${team.played} | ${team.won} | ${team.drawn} | ${team.lost} |`
 ).join('\n')}
 
-## Sessions
 
-${[...new Set(db.read('match').filter(match => parseInt(match.group) === group).map(match => parseInt(match.session)))].map(session => `
-###  ${session}
-- [Matchs Aller](/scores/session-${session}/groupe-${group}/aller/)
-- [Matchs Retour](/scores/session-${session}/groupe-${group}/retour/)
-`).join('\n')}
 `;
-  
+teamSessions.forEach(session => {
+ 
+    const sessionMatches = matches
+      .filter(match => match.session === session && parseInt(match.group)===group)
+      .flatMap(match => {
+        const homeResult = results.find(r => r.matchId === match._id && r.matchType === 'home');
+        const awayResult = results.find(r => r.matchId === match._id && r.matchType === 'away');
+        
+        const homeMatch = {
+          ...match,
+          type: 'home',
+          date: match.homeDate,
+          location: match.homeLocation,
+          opponent: match.team2,
+          team1: match.team1,
+          team2: match.team2,
+          matchId: match._id,
+          matchType: 'home',
+          score: homeResult ? `${homeResult.team1Score} - ${homeResult.team2Score}` : null
+        };
+        
+        const awayMatch = {
+          ...match,
+          type: 'away',
+          date: match.awayDate,
+          location: match.awayLocation,
+          opponent: match.team1,
+          team1: match.team1,
+          team2: match.team2,
+          matchId: match._id,
+          matchType: 'away',
+          score: awayResult ? `${awayResult.team1Score} - ${awayResult.team2Score}` : null
+        };
+        
+        return [homeMatch, awayMatch];
+      });
+
+    // Matchs passés avec résultats
+    const pastMatches = sessionMatches
+      .filter(match => {
+        const matchDate = parseFrenchDate(match.date);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return matchDate < today && match.score;
+      });
+
+    if (pastMatches.length > 0) {
+      groupContent += `#### Résultats\n\n`;
+      groupContent += `| Équipe 1 | Score | Équipe 2 | Lieu | Date |\n`;
+      groupContent += `|----------|-------|----------|------|------|\n`;
+      pastMatches.forEach(match => {
+        const team1Link = `[${match.team1.replace(/ /g, '-')}](${'/teams/' + match.team1.replace(/ /g, '-')})`;
+        const team2Link = `[${match.team2.replace(/ /g, '-')}](${'/teams/' + match.team2.replace(/ /g, '-')})`;
+        const locationLink = match.location ? `[${match.location.replace(/ /g, '-')}](${'/stades/' + match.location.replace(/ /g, '-')})` : '';
+        groupContent += `| ${team1Link} | ${match.score} | ${team2Link} | ${locationLink} | ${formatDate(match.date)} |\n`;
+      });
+      groupContent += `\n`;
+    }
+
+    // Matchs à venir
+    const upcomingMatches = sessionMatches
+      .filter(match => {
+        const matchDate = parseFrenchDate(match.date, false);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return matchDate >= today;
+      });
+
+    if (upcomingMatches.length > 0) {
+      // Matchs à domicile (home)
+      const homeMatches = upcomingMatches.filter(match => match.type === 'home');
+      if (homeMatches.length > 0) {
+        groupContent += `#### Matchs à domicile\n\n`;
+        groupContent += `| Équipe 1 | Équipe 2 | Lieu | Date |\n`;
+        groupContent += `|----------|----------|------|------|\n`;
+        homeMatches.forEach(match => {
+          const team1Link = `[${match.team1.replace(/ /g, '-')}](${'/teams/' + match.team1.replace(/ /g, '-')})`;
+          const team2Link = `[${match.team2.replace(/ /g, '-')}](${'/teams/' + match.team2.replace(/ /g, '-')})`;
+          const locationLink = match.location ? `[${match.location.replace(/ /g, '-')}](${'/stades/' + match.location.replace(/ /g, '-')})` : '';
+          groupContent += `| ${team1Link} | ${team2Link} | ${locationLink} | ${formatDate(match.date)} |\n`;
+        });
+        groupContent += `\n`;
+      }
+
+      // Matchs à l'extérieur (away)
+      const awayMatches = upcomingMatches.filter(match => match.type === 'away');
+      if (awayMatches.length > 0) {
+        groupContent += `#### Matchs à l'extérieur\n\n`;
+        groupContent += `| Équipe 1 | Équipe 2 | Lieu | Date |\n`;
+        groupContent += `|----------|----------|------|------|\n`;
+        awayMatches.forEach(match => {
+          const team1Link = `[${match.team1.replace(/ /g, '-')}](${'/teams/' + match.team1.replace(/ /g, '-')})`;
+          const team2Link = `[${match.team2.replace(/ /g, '-')}](${'/teams/' + match.team2.replace(/ /g, '-')})`;
+          const locationLink = match.location ? `[${match.location.replace(/ /g, '-')}](${'/stades/' + match.location.replace(/ /g, '-')})` : '';
+          groupContent += `| ${team1Link} | ${team2Link} | ${locationLink} | ${formatDate(match.date)} |\n`;
+        });
+        groupContent += `\n`;
+      }
+    }
+  });
   const groupIndexFile = `${groupDir}/index.md`;
   fs.writeFileSync(groupIndexFile, groupContent);
 }
@@ -217,118 +318,9 @@ ${[...new Set(db.read('match').filter(match => parseInt(match.group) === group).
 
 
 // Générer les scores pour chaque session et groupe
-const generateScores = async () => {
-  const scores = {};
-  
-  // Pour chaque session
-  for (const session of sessions) {
-    scores[session] = {};
-    
-    // Pour chaque groupe
-    for (const group of groups) {
-      // Récupérer les matchs de cette session et ce groupe
-      const matches = db.read('result').filter(match => 
-        parseInt(match.session) === session && parseInt(match.group)==group
-      );
-      
-      // Calculer les scores
-      const groupScores = matches.map(match => ({
-        team1: match.team1,
-        team2: match.team2,
-        score1: match.team1Score,
-        score2: match.team2Score,
-        date: match.date,
-        type: match.matchType || 'home' // Ajout du type de match (aller/retour)
-      }));
-      
-      scores[session][group] = groupScores;
-    }
-  }
-  
-  // Générer les posts Hexo pour chaque session et groupe
-  for (const session of sessions) {
-    // Créer le fichier principal de la session
-    const mainContent = `---
-title: Scores Session ${session}
-date: ${new Date().toISOString()}
-layout: session
----
-
-# Scores Session ${session}
-
-${groups.map(group => `
-## [Groupe ${group} - Aller](/scores/session-${session}/groupe-${group}/aller/)
-## [Groupe ${group} - Retour](/scores/session-${session}/groupe-${group}/retour/)
-`).join('\n')}
-`;
-
-    // Écrire le fichier principal
-    const mainFilename = `source/scores-session-${session}/index.md`;
-    if (!fs.existsSync(path.dirname(mainFilename))) {
-        fs.mkdirSync(path.dirname(mainFilename), { recursive: true });
-      }
-    fs.writeFileSync(mainFilename, mainContent);
-
-    // Créer un dossier pour les groupes de cette session
-    const sessionDir = `source/scores/session-${session}`;
-    if (!fs.existsSync(sessionDir)) {
-      fs.mkdirSync(sessionDir, { recursive: true });
-    }
-
-    // Générer un fichier pour chaque groupe
-    for (const group of groups) {
-      // Créer le fichier pour les matchs aller
-      const allerContent = `---
-title: Scores Session ${session} - Groupe ${group} - Matchs Aller
-date: ${new Date().toISOString()}
-layout: page
-concern_group: ${group}
----
-
-
-
-| Équipe 1 | Équipe 2 | Score | Date |
-|----------|----------|-------|------|
-${scores[session][group].filter(match => match.type === 'home').map(match => 
-`| [${match.team1.replace(/ /g, '-')}](/teams/${match.team1.replace(/ /g, '-')}) | [${match.team2.replace(/ /g, '-')}](/teams/${match.team2.replace(/ /g, '-')}) | ${match.score1}-${match.score2} | ${match.date} |`
-).join('\n')}
-`;
-const retourContent = `---
-title: Scores Session ${session} - Groupe ${group} - Matchs Retour
-date: ${new Date().toISOString()}
-layout: page
-concern_group: ${group}
----
-
-
-
-| Équipe 1 | Équipe 2 | Score | Date |
-|----------|----------|-------|------|
-${scores[session][group].filter(match => match.type !== 'home').map(match => 
-  `| [${match.team1.replace(/ /g, '-')}](/teams/${match.team1.replace(/ /g, '-')}) | [${match.team2.replace(/ /g, '-')}](/teams/${match.team2.replace(/ /g, '-')}) | ${match.score1}-${match.score2} | ${match.date} |`
-).join('\n')}
-`;
-      // Créer le fichier pour les matchs retour
-    
-      console.log(allerContent)
-      console.log(retourContent)
-      // Écrire le fichier du groupe
-      const allerFilename = `${sessionDir}/groupe-${group}/aller/index.md`;
-      const retourFilename = `${sessionDir}/groupe-${group}/retour/index.md`;
-        if (!fs.existsSync(path.dirname(allerFilename))) {
-            fs.mkdirSync(path.dirname(allerFilename), { recursive: true });
-        }
-        if (!fs.existsSync(path.dirname(retourFilename))) {
-            fs.mkdirSync(path.dirname(retourFilename), { recursive: true });
-        }
-      fs.writeFileSync(allerFilename, allerContent);
-      fs.writeFileSync(retourFilename, retourContent);
-    }
-  }
-};
 
 // Exécuter la génération
-generateScores();
+
 
 
 

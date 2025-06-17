@@ -95,8 +95,14 @@
   if (typeof date === 'string' && date.includes('/')) {
     const [datePart, timePart] = date.split(' ');
     const [day, month, year] = datePart.split('/');
-    const [hours, minutes] = timePart.split(':');
-    date = new Date(year, month - 1, day, hours, minutes);
+    if(timePart){
+      const [hours, minutes] = timePart.split(':');
+      date = new Date(year, month - 1, day, hours, minutes);
+    }else{
+      date = new Date(year, month - 1, day);
+    }
+    
+   
   }
   const d = new Date(date);
   const months = [
@@ -120,7 +126,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const calendarBody = document.querySelector('.calendar-body');
     const matchData = JSON.parse(calendarBody.dataset.matchDates);
     const currentTeam = calendarBody.dataset.currentTeam.replace("Équipe ","");
-
+    console.log(matchData)
+    console.log(currentTeam)
     let currentDate = new Date();
     let currentMonth = currentDate.getMonth();
     let currentYear = currentDate.getFullYear();
@@ -133,15 +140,16 @@ document.addEventListener('DOMContentLoaded', function() {
     function getMatchInfo(year, month, day) {
         const formattedDay = day.toString().padStart(2, '0');
         const formattedMonth = (month + 1).toString().padStart(2, '0');
-        const dateStr = `${formattedDay}/${formattedMonth}/${year}`;
-        const match = matchData.find(match => {
-            return (match.homeDate && match.homeDate.startsWith(dateStr)) || 
-                   (match.awayDate && match.awayDate.startsWith(dateStr));
+        const dateStr = formatDate(`${formattedDay}/${formattedMonth}/${year}`).split("à")[0];
+        const match = matchData.filter(match => {
+          console.log(dateStr)
+            return (match.homeDate && formatDate(match.homeDate).startsWith(dateStr)) || 
+                   (match.awayDate && formatDate(match.awayDate).startsWith(dateStr));
         });
         if(match){
           match.aujourdhui=dateStr
         }
-        
+        console.log(match)
         return match || null;
     }
 
@@ -167,16 +175,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
     
             const matchInfo = getMatchInfo(year, month, i);
-            
-            if (matchInfo) {
-               
-                console.log(matchInfo.team1)
-                console.log(matchInfo.team2)
-                console.log(matchInfo.team1 === currentTeam)
-                console.log(matchInfo.team2 === currentTeam)
-                console.log(currentTeam)
-                console.log(matchInfo.team1 === currentTeam && matchInfo.team2 === currentTeam)
-                function isTeamInMatch(match, team) {
+            matchInfo.forEach(item => {
+              function isTeamInMatch(match, team) {
+                  console.log(team)
+                  console.log(match)
                   if(match.team1 === team){
                     return true 
                   }
@@ -185,20 +187,30 @@ document.addEventListener('DOMContentLoaded', function() {
                   }
                     return false
                 }
-                if(isTeamInMatch(matchInfo, currentTeam)){
-                  console.log(matchInfo)
+                if(isTeamInMatch(item, currentTeam)){
+                  console.log(item)
                   day.classList.add('match-date');
                 const tooltip = document.createElement('div');
                 tooltip.className = 'match-tooltip';
-                  const isHome = matchInfo.homeDate.includes(matchInfo.aujourdhui);
+                  const isHome = formatDate(item.homeDate).includes(item.aujourdhui);
                 const matchType = isHome ? 'Domicile' : 'Extérieur';
-                const location = isHome ? matchInfo.homeLocation : matchInfo.awayLocation;
-                const time = isHome ? formatDate(matchInfo.homeDate).split('à')[1].trim() : formatDate(matchInfo.awayDate).split('à')[1].trim();
-                const opponent = isHome ? matchInfo.team2 : matchInfo.team1;
-                const mainteam= isHome ? matchInfo.team1 : matchInfo.team2
+                const location = isHome ? item.homeLocation : item.awayLocation;
+                const time = isHome ? formatDate(item.homeDate).split('à')[1].trim() : formatDate(item.awayDate).split('à')[1].trim();
+                const opponent = isHome ? item.team2 : item.team1;
+                const mainteam= isHome ? item.team1 : item.team2
                 tooltip.textContent = `${mainteam} vs ${opponent}\n${matchType} - ${location}\n${time}`;
                 day.appendChild(tooltip);
                 }
+            })
+            if (matchInfo) {
+               
+               // console.log(matchInfo.team1)
+               // console.log(matchInfo.team2)
+               // console.log(matchInfo.team1 === currentTeam)
+               // console.log(matchInfo.team2 === currentTeam)
+                //console.log(currentTeam)
+                //console.log(matchInfo.team1 === currentTeam && matchInfo.team2 === currentTeam)
+               
               
             }
             
@@ -241,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="calendar-body" 
          data-match-dates='<%- JSON.stringify(site.data.db.match.entries.map(match => ({
-             date: match.date,
+           
              team1: match.team1,
              team2: match.team2,
              homeDate: match.homeDate,
