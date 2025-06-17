@@ -72,6 +72,7 @@
         </center>
       </div>
     <% } else { %>
+		<article>
       <div class="archive">
         <% Object.keys(archiveData.years).forEach(function(year) { %>
           <h4 class="archive-ul" data-toggle="collapse" data-target="#year_<%= year %>"><%= year %> <b class="caret"></b></h4>
@@ -96,6 +97,7 @@
           </div>
         <% }); %>
       </div>
+	</article>
     <% } %>
   </div>
 </div>
