@@ -14,6 +14,7 @@
       else {
          title = __('archive_a');
          posts = site.posts;
+		 
       }
    }
    var archiveData = {
@@ -33,6 +34,19 @@
       }
       archiveData.years[year][month].push(item);
    });
+   site.pages.sort('date', 1).each(function(item) {
+	var year = item.date.toDate().getFullYear();
+	var month = item.date.toDate().getMonth();
+	
+	if (!archiveData.years[year]) {
+	   archiveData.years[year] = {};
+	}
+	if (!archiveData.years[year][month]) {
+	   archiveData.years[year][month] = [];
+	}
+	archiveData.years[year][month].push(item);
+	
+ });
 %>
 
 <!-- title -->
