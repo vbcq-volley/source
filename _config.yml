@@ -203,4 +203,8 @@ deploy:
 #  - type: sftp 
  #   host: 100.114.38.245
  #   remotePath: "/var/www/html/"
-
+search:
+  path: search.xml
+  field: all
+  content: true
+  template: ./search.xml
