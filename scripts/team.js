@@ -1,12 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 const formatDate=(date)=>{
+  console.log(date)
   if (!date) return '';
   if (typeof date === 'string' && date.includes('/')) {
     const [datePart, timePart] = date.split(' ');
     const [day, month, year] = datePart.split('/');
     const [hours, minutes] = timePart.split(':');
     date = new Date(year, month - 1, day, hours, minutes);
+  }else{
+    date=parseFrenchDate(date,false)
   }
   const d = new Date(date);
   const months = [
@@ -20,8 +23,14 @@ const formatDate=(date)=>{
   const minutes = d.getMinutes().toString().padStart(2, '0');
   return `${day} ${month} ${year} à ${hours}:${minutes}`;
 }
-const parseFrenchDate = (dateSr) => {
-  const dateStr=formatDate(dateSr)
+const parseFrenchDate = (dateSr,need=true) => {
+  let dateStr;
+  if(dateSr.includes("/")){
+     dateStr=formatDate(dateSr)
+  }else{
+     dateStr=dateSr
+  }
+
   console.log(dateStr)
   const months = {
     'janvier': 0, 'février': 1, 'mars': 2, 'avril': 3, 'mai': 4, 'juin': 5,
@@ -212,6 +221,7 @@ const db = new DB({
 
 const teams = db.read('team');
 const matches = db.read('match');
+const results = db.read('result');
 
 const teamsDir = 'source/teams';
 
@@ -242,68 +252,102 @@ teams.forEach(team => {
     teamContent+=`## contact \n\n${team.coach}\n\n${team.coachContact}\n\n${team.coachEmail}\n\n`
     // Ajouter la section des sessions
     if (teamSessions.length > 0) {
-      teamContent += `## Sessions\n\n`;
+
       teamSessions.forEach(session => {
-        teamContent += `### Session ${session}\n`;
-        teamContent += `- [résultats aller ](/scores/session-${session}/groupe-${team.group}/aller/)\n`;
-        teamContent += `- [résultats retour](/scores/session-${session}/groupe-${team.group}/retour/)\n\n`;
+ 
+        const sessionMatches = matches
+          .filter(match => match.session === session && (match.team1 === team.teamName || match.team2 === team.teamName))
+          .flatMap(match => {
+            const homeResult = results.find(r => r.matchId === match._id && r.matchType === 'home');
+            const awayResult = results.find(r => r.matchId === match._id && r.matchType === 'away');
+            
+            const homeMatch = {
+              ...match,
+              type: 'home',
+              date: match.homeDate,
+              location: match.homeLocation,
+              opponent: match.team2,
+              team1: match.team1,
+              team2: match.team2,
+              matchId: match._id,
+              matchType: 'home',
+              score: homeResult ? `${homeResult.team1Score} - ${homeResult.team2Score}` : null
+            };
+            
+            const awayMatch = {
+              ...match,
+              type: 'away',
+              date: match.awayDate,
+              location: match.awayLocation,
+              opponent: match.team1,
+              team1: match.team1,
+              team2: match.team2,
+              matchId: match._id,
+              matchType: 'away',
+              score: awayResult ? `${awayResult.team1Score} - ${awayResult.team2Score}` : null
+            };
+            
+            return [homeMatch, awayMatch];
+          });
 
-        const sessionMatches = matches.filter(match => 
-          match.session === session && 
-          (match.team1 === team.teamName || match.team2 === team.teamName)
-        );
+        // Matchs passés avec résultats
+        const pastMatches = sessionMatches
+          .filter(match => {
+            const matchDate = parseFrenchDate(match.date);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            return matchDate < today && match.score;
+          });
 
-        if (sessionMatches.length > 0) {
-          const now = new Date();
-          
-          // Fonction pour parser la date en français
-       
+        if (pastMatches.length > 0) {
+          teamContent += `#### Résultats\n\n`;
+          teamContent += `| Équipe 1 | Score | Équipe 2 | Lieu | Date |\n`;
+          teamContent += `|----------|-------|----------|------|------|\n`;
+          pastMatches.forEach(match => {
+            const team1Link = `[${match.team1.replace(/ /g, '-')}](${'/teams/' + match.team1.replace(/ /g, '-')})`;
+            const team2Link = `[${match.team2.replace(/ /g, '-')}](${'/teams/' + match.team2.replace(/ /g, '-')})`;
+            const locationLink = match.location ? `[${match.location.replace(/ /g, '-')}](${'/stades/' + match.location.replace(/ /g, '-')})` : '';
+            teamContent += `| ${team1Link} | ${match.score} | ${team2Link} | ${locationLink} | ${formatDate(match.date)} |\n`;
+          });
+          teamContent += `\n`;
+        }
 
-          // Matchs Aller (home)
-          teamContent += `#### Matchs Aller\n\n`;
-          const allerMatches = sessionMatches.filter(match => 
-            match.team1 === team.teamName || match.team2 === team.teamName
-          );
-          
-          // Matchs passés
-          const pastAllerMatches = allerMatches.filter(match => parseFrenchDate(match.homeDate) < now);
-          if (pastAllerMatches.length > 0) {
-            teamContent += `##### Matchs passés\n\n`;
-            pastAllerMatches.forEach(match => {
-              teamContent += `- [${match.team1.replace(/ /g, '-')}](/teams/${match.team1.replace(/ /g, '-')}) vs [${match.team2.replace(/ /g, '-')}](/teams/${match.team2.replace(/ /g, '-')}) [${match.homeLocation.replace(/ /g, '-')}](/stades/${match.homeLocation.replace(/ /g, '-')}) - ${formatDate(match.homeDate)}\n`;
+        // Matchs à venir
+        const upcomingMatches = sessionMatches
+          .filter(match => {
+            const matchDate = parseFrenchDate(match.date, false);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            return matchDate >= today;
+          });
+
+        if (upcomingMatches.length > 0) {
+          // Matchs à domicile (home)
+          const homeMatches = upcomingMatches.filter(match => match.type === 'home');
+          if (homeMatches.length > 0) {
+            teamContent += `#### Matchs à domicile\n\n`;
+            teamContent += `| Équipe 1 | Équipe 2 | Lieu | Date |\n`;
+            teamContent += `|----------|----------|------|------|\n`;
+            homeMatches.forEach(match => {
+              const team1Link = `[${match.team1.replace(/ /g, '-')}](${'/teams/' + match.team1.replace(/ /g, '-')})`;
+              const team2Link = `[${match.team2.replace(/ /g, '-')}](${'/teams/' + match.team2.replace(/ /g, '-')})`;
+              const locationLink = match.location ? `[${match.location.replace(/ /g, '-')}](${'/stades/' + match.location.replace(/ /g, '-')})` : '';
+              teamContent += `| ${team1Link} | ${team2Link} | ${locationLink} | ${formatDate(match.date)} |\n`;
             });
             teamContent += `\n`;
           }
 
-          // Matchs à venir
-          const futureAllerMatches = allerMatches.filter(match => parseFrenchDate(match.homeDate) >= now);
-          if (futureAllerMatches.length > 0) {
-            teamContent += `##### Matchs à venir\n\n`;
-            futureAllerMatches.forEach(match => {
-              teamContent += `- [${match.team1.replace(/ /g, '-')}](/teams/${match.team1.replace(/ /g, '-')}) vs [${match.team2.replace(/ /g, '-')}](/teams/${match.team2.replace(/ /g, '-')}) [${match.homeLocation.replace(/ /g, '-')}](/stades/${match.homeLocation.replace(/ /g, '-')}) - ${formatDate(match.homeDate)}\n`;
-            });
-            teamContent += `\n`;
-          }
-
-          // Matchs Retour (away)
-          teamContent += `#### Matchs Retour\n\n`;
-          
-          // Matchs passés
-          const pastRetourMatches = allerMatches.filter(match => parseFrenchDate(match.awayDate) < now);
-          if (pastRetourMatches.length > 0) {
-            teamContent += `##### Matchs passés\n\n`;
-            pastRetourMatches.forEach(match => {
-              teamContent += `- [${match.team2.replace(/ /g, '-')}](/teams/${match.team2.replace(/ /g, '-')}) vs [${match.team1.replace(/ /g, '-')}](/teams/${match.team1.replace(/ /g, '-')}) [${match.awayLocation.replace(/ /g, '-')}](/stades/${match.awayLocation.replace(/ /g, '-')}) - ${formatDate(match.awayDate)}\n`;
-            });
-            teamContent += `\n`;
-          }
-
-          // Matchs à venir
-          const futureRetourMatches = allerMatches.filter(match => parseFrenchDate(match.awayDate) >= now);
-          if (futureRetourMatches.length > 0) {
-            teamContent += `##### Matchs à venir\n\n`;
-            futureRetourMatches.forEach(match => {
-              teamContent += `- [${match.team2.replace(/ /g, '-')}](/teams/${match.team2.replace(/ /g, '-')}) vs [${match.team1.replace(/ /g, '-')}](/teams/${match.team1.replace(/ /g, '-')}) [${match.awayLocation.replace(/ /g, '-')}](/stades/${match.awayLocation.replace(/ /g, '-')}) - ${formatDate(match.awayDate)}\n`;
+          // Matchs à l'extérieur (away)
+          const awayMatches = upcomingMatches.filter(match => match.type === 'away');
+          if (awayMatches.length > 0) {
+            teamContent += `#### Matchs à l'extérieur\n\n`;
+            teamContent += `| Équipe 1 | Équipe 2 | Lieu | Date |\n`;
+            teamContent += `|----------|----------|------|------|\n`;
+            awayMatches.forEach(match => {
+              const team1Link = `[${match.team1.replace(/ /g, '-')}](${'/teams/' + match.team1.replace(/ /g, '-')})`;
+              const team2Link = `[${match.team2.replace(/ /g, '-')}](${'/teams/' + match.team2.replace(/ /g, '-')})`;
+              const locationLink = match.location ? `[${match.location.replace(/ /g, '-')}](${'/stades/' + match.location.replace(/ /g, '-')})` : '';
+              teamContent += `| ${team1Link} | ${team2Link} | ${locationLink} | ${formatDate(match.date)} |\n`;
             });
             teamContent += `\n`;
           }
