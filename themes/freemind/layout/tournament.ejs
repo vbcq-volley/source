@@ -188,8 +188,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <% ranking.teams.forEach(team => {
-                                                const teamData = site.data.db.team.entries.find(t => t._id === team.teamId);
+                                            <% ranking.team.forEach(team => {
+                                                const teamData = site.data.db.team.entries.find(t => t.teamName === team.teamName);
                                                 if (teamData) {
                                                     %>
                                                     <tr>
