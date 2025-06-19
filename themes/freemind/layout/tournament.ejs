@@ -73,8 +73,8 @@
         if (!tournamentGroups[tournamentId]) {
             tournamentGroups[tournamentId] = {
                 name: tournamentId === 'tournoi-ete-2025' ? 'Tournoi d\'Été 2025' : 'Tournoi Final',
-                startDate: Math.min(...matches.map(m => formatDate(m.matchDate))),
-                endDate: Math.max(...matches.map(m => formatDate(m.matchDate))),
+                startDate: Math.min(...matches.map(m => new  Date(m.matchDate))),
+                endDate: Math.max(...matches.map(m => new Date(m.matchDate))),
                 status: 'in_progress',
                 groups: [],
                 matches: [],
@@ -101,6 +101,7 @@
     console.log(rankings)
     // Ajouter les classements
     rankings.forEach((rankingGroup, groupIndex) => {
+        console.log(rankingGroup)
         const tournamentId = 'tournoi-ete-2025'; // Pour l'instant, on considère que tous les classements sont du tournoi d'été
         if (tournamentGroups[tournamentId]) {
             tournamentGroups[tournamentId].rankings.push({
