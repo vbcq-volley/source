@@ -188,7 +188,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <% ranking.team.forEach(team => {
+                                            <% ranking.teams.forEach(team => {
                                                 const teamData = site.data.db.team.entries.find(t => t.teamName === team.teamName);
                                                 if (teamData) {
                                                     %>
