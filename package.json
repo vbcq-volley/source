@@ -33,7 +33,7 @@
     "hexo-site": "file:",
     "hexo-tag-bootstrap": "^0.2.2",
     "hexo-theme-landscape": "^1.0.0",
-    "simple-git": "^3.27.0",
+    "simple-git": "^3.28.0",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
