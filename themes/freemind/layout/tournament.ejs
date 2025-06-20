@@ -105,8 +105,9 @@
         const tournamentId = 'tournoi-ete-2025'; // Pour l'instant, on considère que tous les classements sont du tournoi d'été
         if (tournamentGroups[tournamentId]) {
             tournamentGroups[tournamentId].rankings.push({
-                group: `Poule ${groupIndex + 1}`,
-                teams: rankingGroup.teams
+                group: `Poule ${rankingGroup.group ===0 ? 'Finale' :rankingGroup.group}`,
+                index: groupIndex,
+                teams: rankingGroup.teams.filter((team)=>{return team.points!=0})||[]
             });
         }
     });
@@ -177,7 +178,7 @@
                         <div class="rankings">
                             <% tournament.rankings.forEach(ranking => { %>
                                 <div class="ranking-group">
-                                    <h4><%= ranking.group %></h4>
+                                    <h4><%= ranking.group === 0 ? 'Phase finale' : `Groupe ${ranking.group}` %></h4>
                                     <table class="ranking-table">
                                         <thead>
                                             <tr>
