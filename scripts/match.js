@@ -227,8 +227,8 @@ const groups = [...new Set(db.read('team').map(team => parseInt(team.group)))];
 const sessions = [...new Set(db.read('match').map(match => parseInt(match.session)))];
 const matches = db.read('match');
 const results = db.read('result');
-console.log("les donnée sont ")
-console.log(groups,sessions)
+//console.log("les donnée sont ")
+//console.log(groups,sessions)
 // Créer les dossiers pour chaque groupe si ils n'existent pas
 
 for (const group of groups) {

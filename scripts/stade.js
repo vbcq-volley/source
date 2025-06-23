@@ -21,7 +21,7 @@ const formatDate=(date)=>{
   return `${day} ${month} ${year} à ${hours}:${minutes}`;
 }
 const parseFrenchDate = (dateSr) => {
-  const dateStr=formatDate(dateSr)
+ // const dateStr=formatDate(dateSr)
   console.log(dateStr)
   const months = {
     'janvier': 0, 'février': 1, 'mars': 2, 'avril': 3, 'mai': 4, 'juin': 5,
