@@ -116,10 +116,10 @@
               return a.index - b.index;
           });
       });
-      console.log(rankings)
+      //console.log(rankings)
       // Ajouter les classements
       rankings.forEach((rankingGroup, groupIndex) => {
-          console.log(rankingGroup)
+          console.log(rankingGroup.teams.filter((team)=>{return team.points!=0}))
           const tournamentId = 'tournoi-ete-2025'; // Pour l'instant, on considère que tous les classements sont du tournoi d'été
           if (tournamentGroups[tournamentId]) {
               tournamentGroups[tournamentId].rankings.push({
@@ -164,7 +164,7 @@
                                       <h4>Groupe <%= group.name %></h4>
                                       <ul>
                                           <% group.teams.forEach(team => {
-                                              const teamData = site.data.db.team.entries.find(t => t._id === team.teamId);
+                                              const teamData = site.data.db.team.entries.find(t => t._id === team._id);
                                               if (teamData) {
                                                   %>
                                                   <li><%= teamData.teamName %></li>
@@ -180,6 +180,7 @@
                       <% if (tournament.matches) { %>
                           <h3>Matchs</h3>
                           <div class="matches">
+                            
                               <% tournament.matches.forEach(match => { %>
                                   <div class="match">
                                       <% const team1 = site.data.db.team.entries.find(t => t._id === match.team1);
