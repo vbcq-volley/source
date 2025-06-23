@@ -29,15 +29,15 @@ links:
   - title: groupe 1
     url: /groupe-1/
     intro: "championnat du groupe 1"
-    icon: "fa fa-github"
+    icon: "fa-solid fa-volleyball"
   - title: "groupe 2"
     url: /groupe-2/
     intro: "championnat du groupe 2"
-    icon: "fa fa-github"
+    icon: "fa-solid fa-volleyball"
   - title: "groupe 3"
     url: /groupe-3/
     intro: "championnat du groupe 3"
-    icon: "fa fa-linkedin"
+    icon: "fa-solid fa-volleyball"
 
 widgets:
 - search
