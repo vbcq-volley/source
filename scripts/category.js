@@ -1,7 +1,7 @@
 // Hexo plugin to merge categories from pages into posts and update global categories
 hexo.extend.filter.register('before_page_render', function(pages) {
     // Get all pages
-    const pages = hexo.locals.get('pages');
+    console.log(pages)
     // Get global categories
     const globalCategories = hexo.locals.get('categories');
     
@@ -23,13 +23,13 @@ hexo.extend.filter.register('before_page_render', function(pages) {
             hexo.locals.set('categories', allCategories);
             
             // Add the page to each of its categories
-            matchingPage.categories.forEach(category => {
+            page.categories.forEach(category => {
                 // Get the category object from global categories
                 const categoryObj = allCategories.find(cat => cat.name === category);
                 if (categoryObj) {
                     // Add the page to the category's posts array if not already present
-                    if (!categoryObj.posts.some(p => p.path === matchingPage.path)) {
-                        categoryObj.posts.push(matchingPage);
+                    if (!categoryObj.posts.some(p => p.path === page.path)) {
+                        categoryObj.posts.push(page);
                     }
                 }
             });
