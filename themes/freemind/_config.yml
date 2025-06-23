@@ -10,7 +10,10 @@ menu:
     url: archives
     intro: "All the articles."
     icon: "fa fa-archive"
-
+  - title: catégorie
+    url: /category/
+    intro: "les différente catégories de page"
+    icon: "fa fa-archive"
   - title: "groupe 1"
     url: /groupe-1/ 
     intro: "groupe 1"
