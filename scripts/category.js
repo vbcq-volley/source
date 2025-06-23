@@ -9,7 +9,7 @@ hexo.extend.filter.register('before_page_render', function(pages) {
     pages.forEach(page => {
         // Get page categories (if any)
         let pageCategories = page.categories || [];
-        
+        console.log(pageCategories)
         // Find matching page by title or slug
       
         

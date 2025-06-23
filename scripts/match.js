@@ -2,7 +2,7 @@ const fs=require('fs')
 const uuid=require('uuid')
 const path=require('path')
 const formatDate=(date)=>{
-    console.log("fm:"+date)
+    //console.log("fm:"+date)
     if (!date) return '';
     if (typeof date === 'string' && date.includes('/')) {
       const [datePart, timePart] = date.split(' ');
@@ -12,7 +12,7 @@ const formatDate=(date)=>{
     }else{
       date=parseFrenchDate(date,false)
     }
-    console.log(date)
+    //console.log(date)
     const d = new Date(date);
     const months = [
       'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
@@ -27,14 +27,14 @@ const formatDate=(date)=>{
   }
   const parseFrenchDate = (dateSr,need=true) => {
     let dateStr;
-    console.log("pfdm"+dateSr)
+    //console.log("pfdm"+dateSr)
     if(dateSr.includes("/")){
        dateStr=formatDate(dateSr)
     }else{
        dateStr=dateSr
     }
   
-    console.log(dateStr)
+    //console.log(dateStr)
     const months = {
       'janvier': 0, 'février': 1, 'mars': 2, 'avril': 3, 'mai': 4, 'juin': 5,
       'juillet': 6, 'août': 7, 'septembre': 8, 'octobre': 9, 'novembre': 10, 'décembre': 11
