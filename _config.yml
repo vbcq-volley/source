@@ -28,7 +28,7 @@ source_dir: source
 public_dir: public
 tag_dir: tags
 archive_dir: archives
-category_dir: categories
+category_dir: category
 code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
@@ -70,6 +70,11 @@ index_generator:
 # Category & Tag
 default_category: uncategorized
 category_map:
+  - team
+  - championnat
+  - groupe-1
+  - groupe-2
+  - groupe-3
 tag_map:
 
 # Metadata elements
