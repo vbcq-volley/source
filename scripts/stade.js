@@ -118,6 +118,8 @@ stades.forEach(stade => {
 title: ${stade.stadeName}
 date: ${new Date().toISOString()}
 layout: stade
+categories:
+  - stade
 ---
 
 

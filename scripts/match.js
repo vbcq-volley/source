@@ -248,6 +248,9 @@ title: groupe_${group}
 date: ${new Date().toISOString()}
 layout: championnat
 group: ${group}
+categories:
+  - championnat
+  - groupe-${group}
 ---
 
 # Classement du Groupe ${group}
