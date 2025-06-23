@@ -127,6 +127,11 @@
                   index: groupIndex,
                   teams: rankingGroup.teams.filter((team)=>{return team.points!=0})||[]
               });
+              tournamentGroups[tournamentId].groups.push({
+                  name: ` ${rankingGroup.group ===0 ? 'Finale' :rankingGroup.group}`,
+                  index: groupIndex,
+                  teams: rankingGroup.teams.filter((team)=>{return team.points!=0})||[]
+              });
           }
       });
   
