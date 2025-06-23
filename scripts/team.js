@@ -364,7 +364,7 @@ categories:\n
     }
 
     fs.writeFileSync(teamFilename, teamContent);
-    console.log(`Page créée pour l'équipe ${team.teamName} (${team._id})`);
+   // console.log(`Page créée pour l'équipe ${team.teamName} (${team._id})`);
 
 });
 

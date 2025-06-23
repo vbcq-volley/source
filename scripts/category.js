@@ -4,7 +4,7 @@ hexo.extend.filter.register('before_page_render', function(pages) {
     console.log(pages)
     // Get global categories
     const globalCategories = hexo.locals.get('categories');
-    
+    console.log(globalCategories)
     // Process each page
     pages.forEach(page => {
         // Get page categories (if any)
