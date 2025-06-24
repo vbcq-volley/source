@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const formatDate=(date)=>{
-  console.log("f"+date)
+  //console.log("f"+date)
   if (!date) return '';
   if (typeof date === 'string' && date.includes('/')) {
     const [datePart, timePart] = date.split(' ');
@@ -24,7 +24,7 @@ const formatDate=(date)=>{
   return `${day} ${month} ${year} à ${hours}:${minutes}`;
 }
 const parseFrenchDate = (dateSr,need=true) => {
-  console.log(dateSr)
+  //console.log(dateSr)
   let dateStr;
   if(dateSr.includes("/")){
      dateStr=formatDate(dateSr)
@@ -32,7 +32,7 @@ const parseFrenchDate = (dateSr,need=true) => {
      dateStr=dateSr
   }
 
-  console.log(dateStr)
+  //console.log(dateStr)
   const months = {
     'janvier': 0, 'février': 1, 'mars': 2, 'avril': 3, 'mai': 4, 'juin': 5,
     'juillet': 6, 'août': 7, 'septembre': 8, 'octobre': 9, 'novembre': 10, 'décembre': 11
@@ -249,7 +249,14 @@ teams.forEach(team => {
 
   // Vérifier si le fichier existe avant de le créer
   
-    let teamContent = `---\ntitle: Équipe ${team.teamName}\ndate: ${new Date().toISOString()}\nlayout: team\n---\n\n# ${team.teamName}\n\n${team.description}\n\n`;
+    let teamContent = `---\n
+title: Équipe ${team.teamName}\n
+date: ${new Date().toISOString()}\n
+layout: team\n
+categories:\n
+  - équipe\n
+  - groupe-${team.group}\n
+---\n\n# ${team.teamName}\n\n${team.description}\n\n`;
     teamContent+=`## contact \n\n${team.coach}\n\n${team.coachContact}\n\n${team.coachEmail}\n\n`
     // Ajouter la section des sessions
     if (teamSessions.length > 0) {
@@ -357,7 +364,7 @@ teams.forEach(team => {
     }
 
     fs.writeFileSync(teamFilename, teamContent);
-    console.log(`Page créée pour l'équipe ${team.teamName} (${team._id})`);
+   // console.log(`Page créée pour l'équipe ${team.teamName} (${team._id})`);
 
 });
 

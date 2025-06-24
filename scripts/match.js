@@ -2,7 +2,7 @@ const fs=require('fs')
 const uuid=require('uuid')
 const path=require('path')
 const formatDate=(date)=>{
-    console.log("fm:"+date)
+    //console.log("fm:"+date)
     if (!date) return '';
     if (typeof date === 'string' && date.includes('/')) {
       const [datePart, timePart] = date.split(' ');
@@ -12,7 +12,7 @@ const formatDate=(date)=>{
     }else{
       date=parseFrenchDate(date,false)
     }
-    console.log(date)
+    //console.log(date)
     const d = new Date(date);
     const months = [
       'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
@@ -27,14 +27,14 @@ const formatDate=(date)=>{
   }
   const parseFrenchDate = (dateSr,need=true) => {
     let dateStr;
-    console.log("pfdm"+dateSr)
+    //console.log("pfdm"+dateSr)
     if(dateSr.includes("/")){
        dateStr=formatDate(dateSr)
     }else{
        dateStr=dateSr
     }
   
-    console.log(dateStr)
+    //console.log(dateStr)
     const months = {
       'janvier': 0, 'février': 1, 'mars': 2, 'avril': 3, 'mai': 4, 'juin': 5,
       'juillet': 6, 'août': 7, 'septembre': 8, 'octobre': 9, 'novembre': 10, 'décembre': 11
@@ -125,7 +125,7 @@ class DB {
     read(modelName) {
         try {
             const model = this.model(modelName);
-            console.log(model.entries)
+            //console.log(model.entries)
             return model.entries.map((entry, index) => ({...entry, index})) || [];
         } catch (error) {
             console.error(`Error reading entries: ${error.message}`);
@@ -227,8 +227,8 @@ const groups = [...new Set(db.read('team').map(team => parseInt(team.group)))];
 const sessions = [...new Set(db.read('match').map(match => parseInt(match.session)))];
 const matches = db.read('match');
 const results = db.read('result');
-console.log("les donnée sont ")
-console.log(groups,sessions)
+//console.log("les donnée sont ")
+//console.log(groups,sessions)
 // Créer les dossiers pour chaque groupe si ils n'existent pas
 
 for (const group of groups) {
@@ -248,6 +248,9 @@ title: groupe_${group}
 date: ${new Date().toISOString()}
 layout: championnat
 group: ${group}
+categories:
+  - championnat
+  - groupe-${group}
 ---
 
 # Classement du Groupe ${group}

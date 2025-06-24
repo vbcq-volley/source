@@ -14,7 +14,9 @@
   "dependencies": {
     "git-credential-node": "^1.1.0",
     "hexo": "^7.3.0",
+
     "hexo-auto-toc": "^1.0.7",
+
     "hexo-deployer-git": "^4.0.0",
     "hexo-deployer-sftp": "github:alphaleadership/hexo-deployer-sftp",
     "hexo-directory-category": "^1.1.4",
@@ -23,16 +25,20 @@
     "hexo-generator-index": "^4.0.0",
     "hexo-generator-search": "^2.4.3",
     "hexo-generator-tag": "^2.0.0",
+    "hexo-light-gallery": "github:alphaleadership/hexo-light-gallery",
     "hexo-recommended-posts": "^1.2.0",
     "hexo-renderer-ejs": "^2.0.0",
-    "hexo-renderer-marked": "^7.0.0",
+    "hexo-renderer-marked": "^7.0.1",
     "hexo-renderer-stylus": "^3.0.1",
     "hexo-robots": "^1.0.1",
     "hexo-seo": "^2.0.1",
     "hexo-server": "^3.0.0",
     "hexo-site": "file:",
     "hexo-tag-bootstrap": "^0.2.2",
-    "hexo-theme-landscape": "^1.0.0",
+
+    "hexo-theme-landscape": "^1.1.0",
+
+
     "simple-git": "^3.28.0",
     "uuid": "^11.1.0"
   },

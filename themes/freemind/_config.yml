@@ -10,34 +10,37 @@ menu:
     url: archives
     intro: "All the articles."
     icon: "fa fa-archive"
-
+  - title: catégorie
+    url: /category/
+    intro: "les différente catégories de page"
+    icon: "fa fa-archive"
   - title: "groupe 1"
     url: /groupe-1/ 
     intro: "groupe 1"
-    icon: "fa fa-group"
+    icon: "fa-solid fa-volleyball"
   - title: "groupe 2"
     url: /groupe-2/
     intro: "groupe 2"
-    icon: "fa fa-group"
+    icon: "fa-solid fa-volleyball"
   - title: "groupe 3"
     url: /groupe-3/
     intro: "groupe 3"
-    icon: "fa fa-group"
+    icon: "fa-solid fa-volleyball"
   
 
 links:
   - title: groupe 1
     url: /groupe-1/
     intro: "championnat du groupe 1"
-    icon: "fa fa-github"
+    icon: "fa-solid fa-volleyball"
   - title: "groupe 2"
     url: /groupe-2/
     intro: "championnat du groupe 2"
-    icon: "fa fa-github"
+    icon: "fa-solid fa-volleyball"
   - title: "groupe 3"
     url: /groupe-3/
     intro: "championnat du groupe 3"
-    icon: "fa fa-linkedin"
+    icon: "fa-solid fa-volleyball"
 
 widgets:
 - search

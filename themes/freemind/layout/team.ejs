@@ -126,8 +126,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const calendarBody = document.querySelector('.calendar-body');
     const matchData = JSON.parse(calendarBody.dataset.matchDates);
     const currentTeam = calendarBody.dataset.currentTeam.replace("Équipe ","");
-    console.log(matchData)
-    console.log(currentTeam)
+    //console.log(matchData)
+   // console.log(currentTeam)
     let currentDate = new Date();
     let currentMonth = currentDate.getMonth();
     let currentYear = currentDate.getFullYear();
@@ -142,14 +142,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const formattedMonth = (month + 1).toString().padStart(2, '0');
         const dateStr = formatDate(`${formattedDay}/${formattedMonth}/${year}`).split("à")[0];
         const match = matchData.filter(match => {
-          console.log(dateStr)
+          //console.log(dateStr)
             return (match.homeDate && formatDate(match.homeDate).startsWith(dateStr)) || 
                    (match.awayDate && formatDate(match.awayDate).startsWith(dateStr));
         });
         if(match){
           match.aujourdhui=dateStr
         }
-        console.log(match)
+        //console.log(match)
         return match || null;
     }
 
@@ -177,8 +177,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const matchInfo = getMatchInfo(year, month, i);
             matchInfo.forEach(item => {
               function isTeamInMatch(match, team) {
-                  console.log(team)
-                  console.log(match)
+                 // console.log(team)
+                 // console.log(match)
                   if(match.team1 === team){
                     return true 
                   }
@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     return false
                 }
                 if(isTeamInMatch(item, currentTeam)){
-                  console.log(item)
+                 // console.log(item)
                   day.classList.add('match-date');
                 const tooltip = document.createElement('div');
                 tooltip.className = 'match-tooltip';

@@ -9,7 +9,10 @@ description: ''
 keywords:
 author: Thomas Iniguez Visioli 
 language: fr
-
+ligthgallery:
+  enable: true
+  plugins:
+    - lg-video
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
@@ -25,7 +28,7 @@ source_dir: source
 public_dir: public
 tag_dir: tags
 archive_dir: archives
-category_dir: categories
+category_dir: category
 code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
@@ -67,6 +70,11 @@ index_generator:
 # Category & Tag
 default_category: uncategorized
 category_map:
+  - team
+  - championnat
+  - groupe-1
+  - groupe-2
+  - groupe-3
 tag_map:
 
 # Metadata elements
@@ -194,8 +202,8 @@ deploy:
   - type: git
     repo: 
       github:
-        url: "https://github.com/vbcq-volley/source.git"
-        branch: pages
+        url: "https://github.com/vbcq-volley/vbcq-volley.github.io.git"
+      
         token: $HEXO_DEPLOY_TOKEN
     message: "chore: update build"
     name: alphaleadership

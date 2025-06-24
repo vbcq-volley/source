@@ -1,0 +1,266 @@
+
+<%- partial('_partial/post/title', {item: page, index: false}) %>
+
+<% if (page.shadow ) { %>
+   <style type="text/css">
+           img, video {
+                -webkit-box-shadow:0 0 10px rgba(0, 0, 0, .5);  
+                -moz-box-shadow:0 0 10px rgba(0, 0, 0, .5);  
+                box-shadow:0 0 10px rgba(0, 0, 0, .5);  
+           }
+   </style>
+<% } %>
+
+<article>
+<div class="row <% if (true) { %>post<% } else { %>page<% } %>">
+	<!-- cols -->
+	<% if (true) { %>
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	<% } else { %>
+	<div class="col-md-12">
+	<% } %>
+
+	<!-- content -->
+	<div class="mypage">		
+	  <% if (page.description) { %>
+		 <div class="alert alert-success description">
+			<i class="fa fa-info-circle"></i> <%- markdown(page.description) %>			
+		 </div> <!-- alert -->
+	  <% } %>		
+
+      <% const matches = site.data.db.tournament_matches.entries;
+      const rankings = site.data.db.tournament_ranking.entries;
+      const results = site.data.db.tournament_results.entries;
+      const formatDate=(date)=>{
+          //console.log("fm:"+date)
+          if (!date) return '';
+          if (typeof date === 'string' && date.includes('/')) {
+            const [datePart, timePart] = date.split(' ');
+            const [day, month, year] = datePart.split('/');
+            const [hours, minutes] = timePart.split(':');
+            date = new Date(year, month - 1, day, hours, minutes);
+          }else{
+           
+          }
+          //console.log(date)
+          const d = new Date(date);
+          const months = [
+            'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+            'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'
+          ];
+          const day = d.getDate();
+          const month = months[d.getMonth()];
+          const year = d.getFullYear();
+          const hours = d.getHours().toString().padStart(2, '0');
+          const minutes = d.getMinutes().toString().padStart(2, '0');
+          return `${day} ${month} ${year} à ${hours}:${minutes}`;
+        }
+        const parseFrenchDate = (dateSr,need=true) => {
+          let dateStr;
+          //console.log("pfdm"+dateSr)
+          if(dateSr.includes("/")){
+             dateStr=formatDate(dateSr)
+          }else{
+             dateStr=dateSr
+          }
+        
+          //console.log(dateStr)
+          const months = {
+            'janvier': 0, 'février': 1, 'mars': 2, 'avril': 3, 'mai': 4, 'juin': 5,
+            'juillet': 6, 'août': 7, 'septembre': 8, 'octobre': 9, 'novembre': 10, 'décembre': 11
+          };
+          
+          const parts = dateStr.split(' ');
+          const day = parseInt(parts[0]);
+          const month = months[parts[1].toLowerCase()];
+          const year = parseInt(parts[2]);
+          const time = parts[4].split(':');
+          const hours = parseInt(time[0]);
+          const minutes = parseInt(time[1]);
+          
+          return new Date(year, month, day, hours, minutes);
+        };
+      // Créer une structure de tournoi à partir des données existantes
+      const tournaments = [];
+      
+      // Grouper les matchs par tournoi
+      const tournamentGroups = {};
+      matches.forEach(match => {
+          const tournamentId = match.round === 'poule' ? 'tournoi-ete-2025' : 'tournoi-finale';
+          if (!tournamentGroups[tournamentId]) {
+              tournamentGroups[tournamentId] = {
+                  name: tournamentId === 'tournoi-ete-2025' ? 'Tournoi d\'Été 2025' : 'Tournoi Final',
+                  startDate: Math.min(...matches.map(m => new  Date(m.matchDate))),
+                  endDate: Math.max(...matches.map(m => new Date(m.matchDate))),
+                  status: 'in_progress',
+                  groups: [],
+                  matches: [],
+                  rankings: [],
+                  results: []
+              };
+          }
+          // Ajouter l'index au match
+          match.index = match._id || match.index || tournamentGroups[tournamentId].matches.length;
+          tournamentGroups[tournamentId].matches.push(match);
+      });
+      console.log(tournamentGroups)
+      // Trier les matchs par id dans chaque tournoi
+      Object.values(tournamentGroups).forEach(tournament => {
+          tournament.matches.sort((a, b) => {
+              // Si les matchs ont un _id, on les trie par _id
+              if (a._id && b._id) {
+                  return a._id.localeCompare(b._id);
+              }
+              // Sinon on trie par index
+              return a.index - b.index;
+          });
+      });
+      //console.log(rankings)
+      // Ajouter les classements
+      rankings.forEach((rankingGroup, groupIndex) => {
+          console.log(rankingGroup.teams.filter((team)=>{return team.points!=0}))
+          const tournamentId = 'tournoi-ete-2025'; // Pour l'instant, on considère que tous les classements sont du tournoi d'été
+          if (tournamentGroups[tournamentId]) {
+              tournamentGroups[tournamentId].rankings.push({
+                  group: `Poule ${rankingGroup.group ===0 ? 'Finale' :rankingGroup.group}`,
+                  index: groupIndex,
+                  teams: rankingGroup.teams.filter((team)=>{return team.points!=0})||[]
+              });
+              tournamentGroups[tournamentId].groups.push({
+                  name: ` ${rankingGroup.group ===0 ? 'Finale' :rankingGroup.group}`,
+                  index: groupIndex,
+                  teams: rankingGroup.teams.filter((team)=>{return team.points!=0})||[]
+              });
+          }
+      });
+  
+      // Ajouter les résultats
+      results.forEach(result => {
+          const tournamentId = result.round === 'poule' ? 'tournoi-ete-2025' : 'tournoi-finale';
+          if (tournamentGroups[tournamentId]) {
+              tournamentGroups[tournamentId].results.push(result);
+          }
+      });
+  
+      // Convertir l'objet en tableau
+      Object.values(tournamentGroups).forEach(tournament => {
+          tournaments.push(tournament);
+      });
+  
+      if (tournaments.length > 0) { %>
+          <div class="tournament-list">
+              <% tournaments.forEach(tournament => { %>
+                  <div class="tournament-card">
+                      <h2><%= tournament.name %></h2>
+                      <p>De <%= formatDate(tournament.startDate) %> à <%= formatDate(tournament.endDate) %></p>
+                      <p>Status: <%= tournament.status %></p>
+                      
+                      <% if (tournament.groups) { %>
+                          <h3>Groupes</h3>
+                          <div class="groups">
+                              <% tournament.groups.forEach(group => { %>
+                                  <div class="group">
+                                      <h4>Groupe <%= group.name %></h4>
+                                      <ul>
+                                          <% group.teams.forEach(team => {
+                                              const teamData = site.data.db.team.entries.find(t => t._id === team._id);
+                                              if (teamData) {
+                                                  %>
+                                                  <li><%= teamData.teamName %></li>
+                                                  <%
+                                              }
+                                          }); %>
+                                      </ul>
+                                  </div>
+                              <% }); %>
+                          </div>
+                      <% } %>
+                      
+                      <% if (tournament.matches) { %>
+                          <h3>Matchs</h3>
+                          <div class="matches">
+                            
+                              <% tournament.matches.forEach(match => { %>
+                                  <div class="match">
+                                      <% const team1 = site.data.db.team.entries.find(t => t._id === match.team1);
+                                         const team2 = site.data.db.team.entries.find(t => t._id === match.team2);
+                                      %>
+                                      <p><%= team1 ? team1.teamName : 'Équipe 1' %> vs <%= team2 ? team2.teamName : 'Équipe 2' %></p>
+                                      <p>Date: <%= formatDate(match.matchDate) %></p>
+                                      <p>Tour: <%= match.round %></p>
+                                      <% if (match.status === 'completed') { %>
+                                          <p>Score: <%= match.score1 %> - <%= match.score2 %></p>
+                                      <% } %>
+                                  </div>
+                              <% }); %>
+                          </div>
+                      <% } %>
+                      
+                      <% if (tournament.rankings) { %>
+                          <h3>Classements</h3>
+                          <div class="rankings">
+                              <% tournament.rankings.forEach(ranking => { %>
+                                  <div class="ranking-group">
+                                      <h4><%= ranking.group === 0 ? 'Phase finale' : `Groupe ${ranking.group}` %></h4>
+                                      <table class="ranking-table">
+                                          <thead>
+                                              <tr>
+                                                  <th>Équipe</th>
+                                                  <th>Points</th>
+                                                  <th>Victoires</th>
+                                                  <th>Défaites</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                              <% ranking.teams.forEach(team => {
+                                                  const teamData = site.data.db.team.entries.find(t => t.teamName === team.teamName);
+                                                  if (teamData) {
+                                                      %>
+                                                      <tr>
+                                                          <td><%= teamData.teamName %></td>
+                                                          <td><%= team.points %></td>
+                                                          <td><%= team.wins %></td>
+                                                          <td><%= team.losses %></td>
+                                                      </tr>
+                                                      <%
+                                                  }
+                                              }); %>
+                                          </tbody>
+                                      </table>
+                                  </div>
+                              <% }); %>
+                          </div>
+                      <% } %>
+                  </div>
+              <% }); %>
+          </div>
+      <% } else { %>
+          <p>Aucun tournoi n'est actuellement enregistré.</p>
+      <% } %>
+        
+	</div>
+
+	<!-- recommended posts -->
+
+
+	<div>
+  	<center>
+	<%- partial('_partial/post/pagination', {page: page}) %>
+    </center>
+	</div>
+
+    <!-- share -->
+ 
+	
+	<!-- comment -->
+	
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	<div id="side_meta">
+		<%- partial('_partial/post/meta', {item: page}) %>
+	</div>	
+
+</div><!-- row -->
+	</div>
+</article>
