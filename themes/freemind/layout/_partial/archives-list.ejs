@@ -2,7 +2,7 @@
   <h2 class="list-header"><%= params.postTotal || 0 %> Posts</h2>
   <% let currDate; %> 
   <% console.log(params.posts) %>
-  <% params.posts.each(function(post) { %>
+  <% params.posts.forEach(function(post) { %>
     <% if (currDate !== date(post.date, 'YYYY')) { %>
       <% currDate = date(post.date, 'YYYY') %> 
       <h3><%= currDate %></h3>
