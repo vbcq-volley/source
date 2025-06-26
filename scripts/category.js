@@ -10,7 +10,7 @@ const temp= function(locals) {
   const orderBy = config.order_by || '-date';
   const pages = hexo.locals.get("pages");
   let categories=hexo.locals.get("categories")||[]
-  //console.log(categories)
+  console.log(categories)
   pages.data.forEach(page => {
     const globalCategories = categories.data || [];
     // Get page categories (if any)
