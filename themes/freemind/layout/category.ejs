@@ -1,7 +1,65 @@
 <%
-  page.layout = "category"
 
+  const post =true 
   var category = site.categories.find({name: page.category}).filter(category => category.length).data[0]
 %>
+<%- partial('_partial/post/title', {item: page, index: false}) %>
+
+<% if (page.shadow ) { %>
+   <style type="text/css">
+           img, video {
+                -webkit-box-shadow:0 0 10px rgba(0, 0, 0, .5);  
+                -moz-box-shadow:0 0 10px rgba(0, 0, 0, .5);  
+                box-shadow:0 0 10px rgba(0, 0, 0, .5);  
+           }
+   </style>
+<% } %>
+
+<article>
+<div class="row <% if (!post) { %>post<% } else { %>page<% } %>">
+	<!-- cols -->
+	<% if (post) { %>
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	<% } else { %>
+	<div class="col-md-12">
+	<% } %>
+
+	<!-- content -->
+	<div class="mypage">		
+	  <% if (page.description) { %>
+		 <div class="alert alert-success description">
+			<i class="fa fa-info-circle"></i> <%- markdown(page.description) %>			
+		 </div> <!-- alert -->
+	  <% } %>		
 
 <%- partial('_partial/archives-list.ejs', { params: { postTotal: category ? category.posts.length : 0,posts:category.posts} }) %>
+</div>
+<% if (post) { %>
+  <div id="side_meta">
+    <%- partial('_partial/sidebar', {item: page}) %>
+  </div>
+  <% } %>	
+<!-- recommended posts -->
+<% if (post && theme.recommended_posts.enabled) { %>
+  <%- partial('_partial/post/recommended_posts', {page: page, site: site}) %>
+<% } %>
+
+<div>
+  <center>
+<%- partial('_partial/post/pagination', {page: page}) %>
+  </center>
+</div>
+
+ 
+
+<!-- comment -->
+
+</div> <!-- col-md-9/col-md-12 -->
+
+
+
+</div><!-- row -->
+
+</div>
+</article>
