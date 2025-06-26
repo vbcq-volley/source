@@ -4,12 +4,13 @@ const pagination = require('hexo-pagination');
 
 const temp= function(locals) {
   const config = this.config;
-  const perPage = config.category_generator.per_page;
+  console.log(this.config)
+  const perPage = config.per_page;
   const paginationDir = config.pagination_dir || 'page';
-  const orderBy = config.category_generator.order_by || '-date';
+  const orderBy = config.order_by || '-date';
   const pages = hexo.locals.get("pages");
   let categories=hexo.locals.get("categories")||[]
-  console.log(categories)
+  //console.log(categories)
   pages.data.forEach(page => {
     const globalCategories = categories.data || [];
     // Get page categories (if any)
@@ -24,14 +25,14 @@ const temp= function(locals) {
         
         // Merge with existing categories
         const allCategories = [...new Set([...globalCategories, ...newCategories])];
-        console.log(allCategories)
+        //console.log(allCategories)
         // Update locals.categories with the new structure
         categories.data = allCategories.map(category => ({
             ...category,
             posts: [...(category.posts || [])],
             length:category.posts.length,path:category.path||"category/"+category.name
         })).map((cat)=>{
-            console.log(cat)
+            //console.log(cat)
             if( pageCategories.includes(cat.name)){
                 cat.posts.push(page)
             }
@@ -39,7 +40,7 @@ const temp= function(locals) {
         });
         categories.length=allCategories.length
         //console.log("les categories sont "+JSON.stringify(categories,null,2))
-        require("fs").writeFileSync("./category.json",JSON.stringify(categories,null,2))
+        //require("fs").writeFileSync("./category.json",JSON.stringify(categories,null,2))
     }
 });
 //hexo.locals.invalidate();

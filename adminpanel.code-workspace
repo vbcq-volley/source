@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "."
+		},
+		{
+			"path": "D:/tri/test"
 		}
 	],
 	"settings": {}
