@@ -1,24 +1,16 @@
 <%
 
-  const post =true 
+ 
   var category = site.categories.find({name: page.category}).filter(category => category.length).data[0]
 %>
-<%- partial('_partial/post/title', {item: page, index: false}) %>
 
-<% if (page.shadow ) { %>
-   <style type="text/css">
-           img, video {
-                -webkit-box-shadow:0 0 10px rgba(0, 0, 0, .5);  
-                -moz-box-shadow:0 0 10px rgba(0, 0, 0, .5);  
-                box-shadow:0 0 10px rgba(0, 0, 0, .5);  
-           }
-   </style>
-<% } %>
+
+
 
 <article>
-<div class="row <% if (!post) { %>post<% } else { %>page<% } %>">
+<div class="row post">
 	<!-- cols -->
-	<% if (post) { %>
+	<% if (false) { %>
 	<div id="top_meta"></div>
 	<div class="col-md-9">
 	<% } else { %>
@@ -27,21 +19,33 @@
 
 	<!-- content -->
 	<div class="mypage">		
-	  <% if (page.description) { %>
-		 <div class="alert alert-success description">
-			<i class="fa fa-info-circle"></i> <%- markdown(page.description) %>			
-		 </div> <!-- alert -->
-	  <% } %>		
+	
 
-<%- partial('_partial/archives-list.ejs', { params: { postTotal: category ? category.posts.length : 0,posts:category.posts} }) %>
+    <ul class="">
+      <h2 class=""><%= category.posts.length || 0 %> Posts</h2>
+      <% let currDate; %> 
+      
+      <% category.posts.forEach(function(post) { %>
+        <% if (currDate !== date(post.date, 'YYYY')) { %>
+          <% currDate = date(post.date, 'YYYY') %> 
+          <h3><%= currDate %></h3>
+        <% } %>
+        <li class="">
+          <div class="">
+            <a href="<%= url_for(post.path) %>" >
+              <%= post.title %>
+            </a>
+          </div>
+          <div class=""><%= date(post.date, 'MM/DD') %>  
+        </li>
+      <% })%> 
+    </ul>
 </div>
-<% if (post) { %>
-  <div id="side_meta">
-    <%- partial('_partial/sidebar', {item: page}) %>
-  </div>
-  <% } %>	
+
+ 
+
 <!-- recommended posts -->
-<% if (post && theme.recommended_posts.enabled) { %>
+<% if (false && theme.recommended_posts.enabled) { %>
   <%- partial('_partial/post/recommended_posts', {page: page, site: site}) %>
 <% } %>
 
@@ -58,7 +62,9 @@
 </div> <!-- col-md-9/col-md-12 -->
 
 
-
+<div id="side_meta">
+  <%- partial('_partial/sidebar', {item: page}) %>
+</div>
 </div><!-- row -->
 
 </div>

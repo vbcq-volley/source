@@ -1,5 +1,5 @@
-<ul class="list-group">
-  <h2 class="list-header"><%= params.postTotal || 0 %> Posts</h2>
+<div class="temp"><ul class="">
+  <h2 class=""><%= params.postTotal || 0 %> Posts</h2>
   <% let currDate; %> 
   
   <% params.posts.forEach(function(post) { %>
@@ -7,13 +7,13 @@
       <% currDate = date(post.date, 'YYYY') %> 
       <h3><%= currDate %></h3>
     <% } %>
-    <li class="list-group-item">
-      <div class="d-inline">
+    <li class="">
+      <div class="">
         <a href="<%= url_for(post.path) %>" >
           <%= post.title %>
         </a>
       </div>
-      <div class="post-date"><%= date(post.date, 'MM/DD') %>  
+      <div class=""><%= date(post.date, 'MM/DD') %>  
     </li>
   <% })%> 
-</ul>
+</ul></div>
