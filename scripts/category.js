@@ -34,7 +34,10 @@ const temp= function(locals) {
         })).map((cat)=>{
             //console.log(cat)
             if( pageCategories.includes(cat.name)){
-                cat.posts.push(page)
+                if(!cat.posts.some(cat => cat._id === page._id)){
+                  cat.posts.push(page)
+                }
+               
             }
             return cat
         });
