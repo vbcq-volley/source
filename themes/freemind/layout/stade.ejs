@@ -13,7 +13,7 @@
 
  
     <% if (!page.hasOwnProperty('comment')) { page.comment = true; } %>
-    <% page.title="Stades "+page.title
+    <% page.title="Stade "+page.title
     page.content=page.content.replace("map", "<div id='map'></div>")
     %>
     <%- partial('_partial/article', {item: page, post: true}) %>
