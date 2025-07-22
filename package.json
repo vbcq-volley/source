@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "hexo seo-search && hexo seo-feed && hexo generate",
+    "build": "hexo seo-search && hexo seo-feed && hexo generate && hexo seo-search && hexo seo-feed",
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server "
