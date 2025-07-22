@@ -17,7 +17,6 @@ sitemap:
   path: 
     - sitemap.xml
     - sitemap.txt
-
   rel: false
   tags: true
   categories: true

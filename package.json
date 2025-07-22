@@ -21,7 +21,7 @@
     "hexo-generator-archive": "^2.0.0",
     "hexo-generator-index": "^4.0.0",
     "hexo-generator-search": "^2.4.3",
-    "hexo-generator-sitemap": "^3.0.1",
+
     "hexo-generator-tag": "^2.0.0",
     "hexo-light-gallery": "github:alphaleadership/hexo-light-gallery",
     "hexo-pro": "^1.2.6",
