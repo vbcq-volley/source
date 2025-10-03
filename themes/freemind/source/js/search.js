@@ -18,6 +18,16 @@
 // 02110-1301 USA
 // 
 
+    // Helper to robustly remove HTML tags by repeatedly stripping them until none remain.
+    function stripHtmlTags(str) {
+        let previous;
+        do {
+            previous = str;
+            str = str.replace(/<[^>]+>/g, "");
+        } while (str !== previous);
+        return str;
+    }
+
     var searchFunc = function(path, search_id, content_id) {
         'use strict';
         $.ajax({
@@ -81,7 +91,7 @@
                             // show search results
                             if (isMatch) {
                                 str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
-                                const content = data.content.trim().replace(/<[^>]+>/g, "");
+                                const content = stripHtmlTags(data.content.trim());
                                 if (first_occur >= 0) {
                                     // cut out 100 characters
                                     let start = first_occur - 20;
