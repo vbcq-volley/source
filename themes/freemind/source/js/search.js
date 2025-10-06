@@ -62,7 +62,7 @@
                                 data.title = "Untitled";
                             }
                             const data_title = data.title.trim().toLowerCase();
-                            const data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                            const data_content = stripHtmlTags(data.content.trim()).toLowerCase();
                             const data_url = data.url;
                             let index_title = -1;
                             let index_content = -1;
