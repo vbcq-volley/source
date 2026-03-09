@@ -1,0 +1,138 @@
+<p><a href="https://www.jsdelivr.com/package/npm/tarteaucitronjs"><img src="https://data.jsdelivr.com/v1/package/npm/tarteaucitronjs/badge"></a><br><a href="https://www.npmjs.com/package/tarteaucitronjs"><img src="https://img.shields.io/npm/v/tarteaucitronjs.svg" alt="npm"></a> <a href="https://github.com/AmauriC/tarteaucitron.js/graphs/contributors"><img src="https://img.shields.io/github/contributors/AmauriC/tarteaucitron.js.svg" alt="GitHub contributors"></a> <a href="https://github.com/sponsors/AmauriC"><img src="https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub" alt="Sponsor"></a> </p>
+<p>👋 Hey, I’m Amauri, a french dev that build a GDPR friendly cookie manager.</p>
+<p>tarteaucitron was initially a simple script for my personal blog (in 2013), a few months later, the Github repository is opened and tarteaucitron is now reliable and recognized.</p>
+<p>The european cookie law regulates the management of cookies and you should ask your visitors their consent before exposing them to third party services.</p>
+<p>Clearly this script will:</p>
+<ul>
+<li>Disable all services by default,</li>
+<li>Display a banner on the first page view and a small one on other pages,</li>
+<li>Display a panel to allow or deny each services one by one,</li>
+<li>Store the consent in a cookie for 365 days.</li>
+</ul>
+<p>Bonus:</p>
+<ul>
+<li>Load service when user click on Allow (without reload of the page),</li>
+<li>Incorporate a fallback system (display a link instead of social button and a static banner instead of advertising).</li>
+</ul>
+<h1 id="How-to-use"><a href="#How-to-use" class="headerlink" title="How to use"></a>How to use</h1><pre><code class="language-html">&lt;script src=&quot;/tarteaucitron/tarteaucitron.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+tarteaucitron.init({
+    &quot;privacyUrl&quot;: &quot;&quot;, /* Privacy policy url */
+    &quot;bodyPosition&quot;: &quot;bottom&quot;, /* or top to bring it as first element for accessibility */
+
+    &quot;hashtag&quot;: &quot;#tarteaucitron&quot;, /* Open the panel with this hashtag */
+    &quot;cookieName&quot;: &quot;tarteaucitron&quot;, /* Cookie name */
+
+    &quot;orientation&quot;: &quot;middle&quot;, /* Banner position (top - bottom - middle - popup) */
+
+    &quot;groupServices&quot;: false, /* Group services by category */
+    &quot;showDetailsOnClick&quot;: true, /* Click to expand the description */
+    &quot;serviceDefaultState&quot;: &quot;wait&quot;, /* Default state (true - wait - false) */
+
+    &quot;showAlertSmall&quot;: false, /* Show the small banner on bottom right */
+    &quot;cookieslist&quot;: false, /* Show the cookie list in a mini banner */
+    &quot;cookieslistEmbed&quot;: false, /* Show the cookie list on the control panel */
+    
+    &quot;showIcon&quot;: true, /* Show cookie icon to manage cookies */
+    // &quot;iconSrc&quot;: &quot;&quot;, /* Optional: URL or base64 encoded image */
+    &quot;iconPosition&quot;: &quot;BottomRight&quot;, /* Position of the icon between BottomRight, BottomLeft, TopRight and TopLeft */
+
+    &quot;adblocker&quot;: false, /* Show a Warning if an adblocker is detected */
+
+    &quot;DenyAllCta&quot; : true, /* Show the deny all button */
+    &quot;AcceptAllCta&quot; : true, /* Show the accept all button when highPrivacy on */
+    &quot;highPrivacy&quot;: true, /* HIGHLY RECOMMANDED Disable auto consent */
+    &quot;alwaysNeedConsent&quot;: false, /* Ask the consent for &quot;Privacy by design&quot; services */
+    
+    &quot;handleBrowserDNTRequest&quot;: false, /* If Do Not Track == 1, disallow all */
+
+    &quot;removeCredit&quot;: false, /* Remove credit link */
+    &quot;moreInfoLink&quot;: true, /* Show more info link */
+    &quot;useExternalCss&quot;: false, /* If false, the tarteaucitron.css file will be loaded */
+    &quot;useExternalJs&quot;: false, /* If false, the tarteaucitron.services.js file and lang files will be loaded */
+
+    // &quot;cookieDomain&quot;: &quot;.my-multisite-domaine.fr&quot;, /* Shared cookie for subdomain website */
+
+    &quot;readmoreLink&quot;: &quot;&quot;, /* Change the default readmore link pointing to tarteaucitron.io */
+    
+    &quot;mandatory&quot;: true, /* Show a message about mandatory cookies */
+    &quot;mandatoryCta&quot;: true, /* Show the disabled accept button when mandatory on */
+    
+    // &quot;customCloserId&quot;: &quot;&quot;, /* Optional a11y: Custom element ID used to open the panel */
+
+    &quot;googleConsentMode&quot;: true, /* Enable Google Consent Mode v2 for Google ads and GA4 */
+    &quot;bingConsentMode&quot;: true, /* Enable Bing Consent Mode for Clarity and Bing Ads */
+    &quot;pianoConsentMode&quot;: true, /* Enable Piano Analytics Consent Mode */
+    &quot;pianoConsentModeEssential&quot;: false, /* Load in Essential mode instead of opt-out by default */
+    &quot;softConsentMode&quot;: false, /* Soft consent mode (consent is required to load the services) */
+
+    &quot;dataLayer&quot;: false, /* Send an event to dataLayer with the services status */
+    &quot;serverSide&quot;: false, /* Server side only, tags are not loaded client side */
+    
+    &quot;partnersList&quot;: false /* Details the number of partners on the popup and middle banner */
+});
+&lt;/script&gt;
+</code></pre>
+<h1 id="Add-a-service"><a href="#Add-a-service" class="headerlink" title="Add a service"></a>Add a service</h1><p><a href="https://tarteaucitron.io/en/free-installation-open-source/">Installation guide</a></p>
+<h1 id="Customization"><a href="#Customization" class="headerlink" title="Customization"></a>Customization</h1><h2 id="Create-custom-service"><a href="#Create-custom-service" class="headerlink" title="Create custom service"></a>Create custom service</h2><pre><code class="language-js">tarteaucitron.services.mycustomservice = {
+  &quot;key&quot;: &quot;mycustomservice&quot;,
+  &quot;type&quot;: &quot;ads|analytic|api|comment|other|social|support|video&quot;,
+  &quot;name&quot;: &quot;MyCustomService&quot;,
+  &quot;needConsent&quot;: true,
+  &quot;cookies&quot;: [&#39;cookie&#39;, &#39;cookie2&#39;],
+  &quot;readmoreLink&quot;: &quot;/custom_read_more&quot;, // If you want to change readmore link
+  &quot;js&quot;: function () {
+    &quot;use strict&quot;;
+    // When user allow cookie
+  },
+  &quot;fallback&quot;: function () {
+    &quot;use strict&quot;;
+    // when use deny cookie
+  }
+};
+</code></pre>
+<h2 id="Events"><a href="#Events" class="headerlink" title="Events"></a>Events</h2><p>The following events are available:</p>
+<ul>
+<li><p>(document) <code>{SERVICE_KEY}_added</code> for each enabled service</p>
+</li>
+<li><p>(document) <code>{SERVICE_KEY}_loaded</code> for each enabled service</p>
+</li>
+<li><p>(document) <code>{SERVICE_KEY}_allowed</code> for each service when allowed</p>
+</li>
+<li><p>(document) <code>{SERVICE_KEY}_disallowed </code> for each service when disallowed</p>
+</li>
+<li><p>(window) <code>tac.root_available</code>: the root element with panel has been created, services will be loaded</p>
+</li>
+<li><p>(window) <code>tac.open_alert</code></p>
+</li>
+<li><p>(window) <code>tac.close_alert</code></p>
+</li>
+<li><p>(window) <code>tac.open_panel</code></p>
+</li>
+<li><p>(window) <code>tac.close_panel</code></p>
+</li>
+</ul>
+<h2 id="Customize-text"><a href="#Customize-text" class="headerlink" title="Customize text"></a>Customize text</h2><p>To change a translation, use <code>tarteaucitronCustomText</code> variable. It will be merge with the translation shipping with TAC. This variable must be defined before the initialization. For example:</p>
+<pre><code class="language-js">tarteaucitronCustomText = {
+  &#39;support&#39;: {
+    &#39;title&#39;: &#39;Support client&#39;,
+  },
+  &#39;close&#39;: &#39;Enregistrer et fermer&#39;,
+};
+tarteaucitron.init(...);
+</code></pre>
+<p>There is a special case for engagement text. By the default, the engagement text is  <em>{SERVICE_NAME} is disabled.</em>, however you can change it per service. For example:</p>
+<pre><code class="language-js">tarteaucitronCustomText = {
+  &#39;engage-twitter&#39;: &#39;Follow us on Twitter!&#39;
+};
+</code></pre>
+<!--
+# Thanks to the sponsors 😊
+
+| ![Amaury Cleuziou](https://avatars.githubusercontent.com/u/26336203?v=4&s=60) |                                                              |   |
+|---|--------------------------------------------------------------|---|
+|  [Amaury Cleuziou](https://github.com/MoryCorp) - first sponsor 🎉 |                                                              |  |
+| |                                                              |   |
+-->
+
